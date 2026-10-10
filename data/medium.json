@@ -1,0 +1,127 @@
+{
+  "source": "https://ainkun.medium.com/feed",
+  "profile": "https://ainkun.medium.com",
+  "fetchedAt": "2026-10-10T03:27:07.320630+00:00",
+  "posts": [
+    {
+      "title": "DLL Injection",
+      "url": "https://ainkun.medium.com/dll-injection-60cc0d86a7bf",
+      "publishedAt": "2023-09-06T00:10:29+00:00",
+      "excerpt": "Overview In this task, we will attempt to perform DLL(Dynamic-link Library) Injection into a separate process. It falls under the category of “Process injection”, which is a method used to…",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*SWQZ-rB8Cqzx6ienXu-XGw.jpeg",
+      "tags": [
+        "privilege-escalation",
+        "cybersecurity",
+        "dll-injection"
+      ]
+    },
+    {
+      "title": "DLL Hijacking — OneDrive",
+      "url": "https://ainkun.medium.com/dll-hijacking-onedrive-73f06ce102ce",
+      "publishedAt": "2023-08-29T10:19:25+00:00",
+      "excerpt": "DLL Hijacking — OneDrive I plan to perform DLL Hijacking chaining with DLL Proxying on a target DLL that the onedrive application loads in order to utilize its functions. Setup: Linux…",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*rv-haYkBh45v_ExmwWPKtw.jpeg",
+      "tags": [
+        "ethical-hacking",
+        "red-team",
+        "cybersecurity"
+      ]
+    },
+    {
+      "title": "Shellcode Injection",
+      "url": "https://ainkun.medium.com/shellcode-injection-ae82737d8f65",
+      "publishedAt": "2023-08-29T09:16:53+00:00",
+      "excerpt": "Overview In this post, we will attempt to perform Shellcode Injection into a separate process. This technique is also known as “Portable Executable Injection” in the MITRE ATT&CK Framework.…",
+      "image": "https://cdn-images-1.medium.com/max/1024/0*TSBkFIBnydQuAESG.png",
+      "tags": [
+        "shellcode-injection",
+        "red-team",
+        "defense-evasion"
+      ]
+    },
+    {
+      "title": "Encrypted shellcode execution",
+      "url": "https://ainkun.medium.com/encrypted-shellcode-execution-895c7d468532",
+      "publishedAt": "2023-08-29T08:14:03+00:00",
+      "excerpt": "Static Detection Static detection is how AVs analyze files or code without executing them. It involves examining the characteristics, structure, and content of a file to determine whether…",
+      "image": "https://cdn-images-1.medium.com/max/1024/0*8XvJst80Luv_XAEL.jpeg",
+      "tags": [
+        "red-team",
+        "cybersecurity",
+        "encryption"
+      ]
+    },
+    {
+      "title": "Initial access using a Malicious Document(MalDoc)",
+      "url": "https://ainkun.medium.com/initial-access-using-a-malicious-document-maldoc-e2901a50f89d",
+      "publishedAt": "2023-08-29T07:45:32+00:00",
+      "excerpt": "Setup: Linux environment(Attacker) Metasploit Python 2. Windows environment(Target) Disabled windows defender MS Office 1. Developing a Malicious Document (MalDoc): Techniques and…",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*04XcC5EBWub7LE3V7FZemA.png",
+      "tags": [
+        "red-team",
+        "cybersecurity",
+        "macro"
+      ]
+    },
+    {
+      "title": "Crypto Conspiracy | Part 4 | HTB: CA & PicoCTF 2023",
+      "url": "https://ainkun.medium.com/crypto-conspiracy-part-4-htb-ca-picoctf-2023-2480a39b264f",
+      "publishedAt": "2023-04-14T05:42:16+00:00",
+      "excerpt": "Hello readers! Welcome to the fourth installment of this series. It’s been a while since I posted. A lot has been happening, which kept me busy and caused delays. My biggest enemy,…",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*aGMl-bzXZtTJkmAsAMUsPA.png",
+      "tags": [
+        "ctf-writeup",
+        "cryptography",
+        "ctf"
+      ]
+    },
+    {
+      "title": "Crypto Conspiracy | Part 3| PicoCTF",
+      "url": "https://ainkun.medium.com/crypto-conspiracy-part-3-picoctf-1e8ea238b28a",
+      "publishedAt": "2022-09-12T16:57:09+00:00",
+      "excerpt": "Crypto Conspiracy | Part 3 | PicoCTF Welcome back to the 3rd Part of this ongoing Cryptography series. As mentioned earlier, this series is about solving cryptography challenges and…",
+      "image": "https://cdn-images-1.medium.com/max/1000/1*2Y0v-7LzzWKEPfhd49m4cw.jpeg",
+      "tags": [
+        "writeup",
+        "cryptography",
+        "ctf-writeup"
+      ]
+    },
+    {
+      "title": "Crypto Conspiracy | Part 2 | NCC CTF 2022",
+      "url": "https://ainkun.medium.com/crypto-conspiracy-part-2-ncc-ctf-2022-751f796773ba",
+      "publishedAt": "2022-07-31T22:01:57+00:00",
+      "excerpt": "In Part 2, we will cover cryptography challenges from a recent CTF organized by NED Cyber Community. I won’t go into too much detail about the concepts and will try to explain them with as…",
+      "image": "https://cdn-images-1.medium.com/max/1024/1*xwIk-YyzMALdFdoqYH9TcQ.jpeg",
+      "tags": [
+        "cryptography",
+        "ctf-2022",
+        "ctf"
+      ]
+    },
+    {
+      "title": "Crypto Conspiracy | Part 1 | PicoCTF",
+      "url": "https://ainkun.medium.com/crypto-conspiracy-part-1-picoctf-5ed32565b5ca",
+      "publishedAt": "2022-07-20T21:44:03+00:00",
+      "excerpt": "I am starting a cryptography blog series, where I will undergo various challenges from different CTFs and learning platforms, providing write ups and resources which help me progress…",
+      "image": "https://cdn-images-1.medium.com/max/1019/1*Po9FW9XelFY2JoO1o_HSzQ.png",
+      "tags": [
+        "picoctf",
+        "cybersecurity",
+        "ctf-writeup"
+      ]
+    },
+    {
+      "title": "Steganography Challenge by Careem",
+      "url": "https://ainkun.medium.com/steganography-challenge-by-careem-a17a59cbf79c",
+      "publishedAt": "2022-03-17T07:40:31+00:00",
+      "excerpt": "Careem posted a Job on Linkedin for a position of Offensive Security engineer. Mentioning that the applicants need to crack the code in the given link pasted below, to apply for the job.…",
+      "image": "https://cdn-images-1.medium.com/max/361/1*oAviFT6XKjvUXj4d1fDSig.png",
+      "tags": [
+        "ctf-writeup",
+        "writeup",
+        "steganography"
+      ]
+    }
+  ]
+}

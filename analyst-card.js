@@ -68,10 +68,7 @@
     trait.append(element('dt', '', item.label), element('dd', '', item.value));
     traits.append(trait);
   });
-  const connect = element('button', 'collectible-connect');
-  connect.type = 'button';
-  connect.append(element('span', '', 'CONTACT'), element('strong', '', config.contactLabel || "Let's connect"), element('span', '', '↗'));
-  body.append(traits, connect, element('p', 'collectible-motto', config.motto));
+  body.append(traits, element('p', 'collectible-motto', config.motto));
   const footer = element('footer', 'collectible-footer');
   footer.append(element('span', '', config.edition), element('span', '', `${config.number} / a刀 ✦`));
   card.append(header, artwork, body, footer);
@@ -92,19 +89,105 @@
   const motionAllowed = () => !reduced.matches && !document.body.classList.contains('motion-paused');
   let state = 'closed';
   let timer;
-  let goToContact = false;
+
+  // A decorative copy flips in place; the original keeps its layout and hit area.
+  const hint = element('div', 'profile-card-hint');
+  const hintRotor = element('div', 'profile-hint-rotor');
+  const hintFront = element('div', 'profile-hint-front');
+  const hintBack = element('div', 'profile-hint-back');
+  function visualClone(node) {
+    const clone = node.cloneNode(true);
+    clone.querySelectorAll('button').forEach(child => child.remove());
+    clone.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
+    clone.removeAttribute('id');
+    return clone;
+  }
+  hintBack.append(visualClone(card));
+  hintRotor.append(hintFront, hintBack);
+  hint.append(hintRotor);
+  hint.hidden = true;
+  hint.setAttribute('aria-hidden', 'true');
+  hint.setAttribute('inert', '');
+  source.parentElement.append(hint);
+  const hintInterval = 10000;
+  let hintTimer;
+  let hintEndTimer;
+  let inView = !('IntersectionObserver' in window);
+
+  function stopHint() {
+    clearTimeout(hintEndTimer);
+    hint.hidden = true;
+    source.classList.remove('card-hint-active');
+  }
+  function hintAllowed() {
+    return state === 'closed' && motionAllowed() && !document.hidden && inView;
+  }
+  function scheduleHint() {
+    clearTimeout(hintTimer);
+    if (hintAllowed()) hintTimer = setTimeout(beginHint, hintInterval);
+  }
+  function refreshHint() {
+    stopHint();
+    scheduleHint();
+  }
+  function beginHint() {
+    if (!hintAllowed()) return;
+    // Preserve the natural source size and use the same detailed reverse face.
+    const style = getComputedStyle(source);
+    const width = parseFloat(style.width) || source.offsetWidth;
+    const height = parseFloat(style.height) || source.offsetHeight;
+    hintFront.replaceChildren(visualClone(source));
+    hint.style.width = `${width}px`;
+    hint.style.height = `${height}px`;
+    hint.style.left = `${source.offsetLeft}px`;
+    hint.style.top = `${source.offsetTop}px`;
+    hint.style.transform = style.transform;
+    hint.style.setProperty('--hint-detail-height', `${height * 420 / width}px`);
+    hint.style.setProperty('--hint-detail-scale', String(width / 420));
+    hint.hidden = false;
+    source.classList.add('card-hint-active');
+    hintEndTimer = setTimeout(stopHint, 3100);
+    scheduleHint(); // Ten seconds between starts, with no catch-up bursts.
+  }
+  hintRotor.addEventListener('animationend', event => {
+    if (event.target === hintRotor && event.animationName === 'profile-hint-turn') stopHint();
+  });
+  document.addEventListener('visibilitychange', refreshHint);
+  new MutationObserver(refreshHint).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-motion-paused']
+  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.5;
+      refreshHint();
+    }, { threshold: [0, 0.5] }).observe(source);
+  }
+  scheduleHint();
 
   function setState(next) {
     state = next;
     dialog.dataset.state = next;
   }
   function origin() {
+    // The main-page card keeps its natural responsive layout. Fit the popup
+    // to that ratio before measuring its center, so neither face stretches.
+    const sourceStyle = getComputedStyle(source);
+    const width = parseFloat(sourceStyle.width) || source.offsetWidth;
+    const height = parseFloat(sourceStyle.height) || source.offsetHeight;
+    flight.style.setProperty('--analyst-card-ratio', `${width} / ${height}`);
     const from = source.getBoundingClientRect();
     const to = flight.getBoundingClientRect();
     flight.style.setProperty('--card-origin-x', `${from.left + from.width / 2 - to.left - to.width / 2}px`);
     flight.style.setProperty('--card-origin-y', `${from.top + from.height / 2 - to.top - to.height / 2}px`);
-    flight.style.setProperty('--card-origin-sx', String(source.offsetWidth / to.width));
-    flight.style.setProperty('--card-origin-sy', String(source.offsetHeight / to.height));
+    // One scale preserves the shared aspect ratio throughout the flight.
+    // Keep the front at its original layout size, then enlarge it as a unit:
+    // reflowing the clone at popup width would make its image and labels jump.
+    const scale = width / to.width;
+    flight.style.setProperty('--card-origin-scale', String(scale));
+    flight.style.setProperty('--card-origin-pose', sourceStyle.transform === 'none' ? 'rotate(0deg)' : sourceStyle.transform);
+    front.style.setProperty('--card-source-width', `${width}px`);
+    front.style.setProperty('--card-source-height', `${height}px`);
+    front.style.setProperty('--card-face-scale', String(1 / scale));
   }
   function settleOpen() {
     if (state !== 'opening') return;
@@ -120,22 +203,13 @@
     trigger.setAttribute('aria-expanded', 'false');
     if (dialog.open) dialog.close();
     trigger.focus({ preventScroll: true });
-    if (goToContact) {
-      const contact = document.querySelector('#contact');
-      contact.setAttribute('tabindex', '-1');
-      contact.focus({ preventScroll: true });
-      contact.scrollIntoView({ behavior: motionAllowed() ? 'smooth' : 'instant', block: 'start' });
-      goToContact = false;
-    }
+    scheduleHint();
   }
   function openCard() {
     if (state !== 'closed') return;
-    const clone = source.cloneNode(true);
-    clone.querySelectorAll('button').forEach(node => node.remove());
-    clone.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
-    clone.removeAttribute('id');
-    front.replaceChildren(clone);
-    goToContact = false;
+    clearTimeout(hintTimer);
+    stopHint();
+    front.replaceChildren(visualClone(source));
     setState('measuring');
     document.body.classList.add('card-popup-open');
     dialog.showModal();
@@ -167,7 +241,6 @@
   }
   trigger.addEventListener('click', openCard);
   dismiss.addEventListener('click', closeCard);
-  connect.addEventListener('click', () => { goToContact = true; closeCard(); });
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeCard(); });
   dialog.addEventListener('click', event => { if (event.target === dialog) closeCard(); });
   dialog.addEventListener('close', () => { if (state !== 'closed') finishClose(); });
@@ -177,10 +250,13 @@
     if (state === 'closing' && event.animationName === 'card-fly-out') finishClose();
   });
   window.addEventListener('resize', () => {
+    refreshHint();
     if (state === 'opening') settleOpen();
     else if (state === 'closing') finishClose();
+    if (state === 'open') origin();
   });
   reduced.addEventListener('change', () => {
+    refreshHint();
     if (!reduced.matches) return;
     if (state === 'opening') settleOpen();
     else if (state === 'closing') finishClose();

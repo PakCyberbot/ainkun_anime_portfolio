@@ -1,10 +1,12 @@
 # ainkun Portfolio — Project Summary and Future Handoff
 
-Last updated: 2026-10-09.
+Last updated: 2026-10-10.
 
 This is the portable project memory for future work on this website. Read it before making changes, then inspect the relevant source files. It records the current implementation, the owner's preferences, and decisions reached during the design conversation. Paths are relative to the repository root so this document works on Windows, macOS, Linux, and hosted development environments.
 
 If the source has changed since this summary was written, reconcile the differences rather than overwriting newer work. Update this document when future changes alter the design or behavior.
+
+**Git workflow:** Prepare commits at major changes, but always ask the owner for approval before committing. Complete and verify the changes first, then present the proposed commit. Never commit without that approval.
 
 ## 1. Owner and purpose
 
@@ -15,7 +17,7 @@ If the source has changed since this summary was written, reconcile the differen
 - **Purpose:** A personal portfolio for security work, projects, achievements, research notes, Medium articles, and social links.
 - **Hosting requirement:** Easy to host on GitHub Pages, including a repository subpath, without a build pipeline or backend.
 
-Projects, achievements, articles, and social URLs still contain intentional placeholders. Do not invent credentials, awards, publications, competition results, or working social profiles.
+Projects, achievements, and most social URLs still contain intentional placeholders. Medium is now `https://ainkun.medium.com`, and blog articles are fetched from that account's RSS. Do not invent credentials, awards, publications, competition results, or other working social profiles.
 
 ## 2. Current design direction — preserve this
 
@@ -23,7 +25,7 @@ The approved direction is a calm, wholesome Japanese anime-inspired neighborhood
 
 Important preferences established by the owner:
 
-- Do not add an extra anime character as a decorative mascot or hero illustration. Use the supplied profile avatar, `mainimage.png`.
+- Do not add an extra anime character as a decorative mascot or hero illustration. Use the supplied profile avatar, `mainimage.png`. The owner subsequently authorized a nerdy adult female VTuber-style host specifically for the Blog section; this is a scoped exception, not a hero redesign.
 - Favor a relaxing residential street, trees, plants, and soft natural light over a dense futuristic cyber city.
 - Keep the visual identity professional and approachable. Avoid exaggerated sharp edges, aggressive blade decorations, and overly soft bubble-style lettering.
 - Use meaningful Japanese words alongside English labels.
@@ -54,12 +56,23 @@ The main page is `index.html`.
 - The hero contains the animated name, real full name and role, editable introduction, calls to action, and the supplied avatar in a lightly tilted card.
 - Clicking or tapping that avatar opens a collectible analyst card with a flip-and-zoom animation, centered across the full viewport. Its content is editable in `profile.js`.
 - Three chapter cards link into the portfolio content.
-- Sections: Home, About Me, Projects, Achievements, Field Notes, and Connect.
+- Homepage sections: Home, About Me, Projects, Achievements, and Connect. Blog & Field Notes lives on a separate `blog.html` page; both the sidebar and homepage chapter tile link there in the same tab.
 - About includes skill chips and a decorative terminal-style panel.
-- Projects, achievements, writing, and social links are rendered from `profile.js`.
+- Projects, achievements, and social links are rendered from `profile.js`. Blog articles come from `data/medium.json`, fetched from Medium RSS by `scripts/refresh_medium.py`.
 - Empty URLs produce a clear coming-soon notice; usable links are validated before being assigned.
 - Additional interactions include scroll reveals, active-section navigation, subtle particles, avatar pointer tilt, and a motion pause button.
 - Keyboard focus states, accessible control labels, a skip link, reduced-motion support, and responsive layouts are present.
+
+### Blog implementation handoff
+
+- `blog.js`/`blog.css` own the Medium shelf and nerdy adult female VTuber-style host. Navigation says BLOG and links to `blog.html`. That page retains `#writing` as its article section ID. The browser loads `data/medium.json` on page entry, with a five-minute cache, shared in-flight request, ten-second timeout, retry state, and a visible sync date. Articles use safe text nodes, HTTPS Medium links, lazy images, and native new-tab navigation.
+- `scripts/refresh_medium.py` fetches `https://ainkun.medium.com/feed` with Python's standard library, extracts ten recent titles/URLs/dates/thumbnails/tags/short excerpts, and atomically writes the JSON. The current snapshot contains ten real articles, including DLL Injection and DLL Hijacking — OneDrive. It does not fabricate posts or embed full RSS article HTML. `--direct` bypasses a broken environment proxy; `--allow-stale` retains the bundled feed if a refresh fails.
+- `.github/workflows/pages.yml` refreshes on push to main, manual dispatch, and daily around 08:17 PKT, then stages the static site with `scripts/build_site.py` and deploys it. **No automated Git commits.** The user must select GitHub Actions as the Pages source to enable this. No workflow has been pushed or run remotely in this session. Branch-based Pages/other hosts need manual JSON refreshes. Localhost serves the bundled feed without contacting Medium itself.
+- The blog-only generated transparent character is `assets/blog/nerd-female-host.png` (1024 x 1536 RGBA). The current host is based on the supplied `nerd-female-character.jpeg`: glasses, high ponytail, and a cream lab coat with sage accents. The user replaced the earlier male host while preserving the large waist-up framing. She rises from below the bottom-right edge, stays visible during scrolling, and slides below the window when leaving. `.blog-guide-portrait` clips the lower body at the window bottom; desktop height is min(53svh,460px), mobile min(34svh,285px). Portrait width is 84% of this height, so the full image extends below the visible frame. A six-second subtle breathing animation respects reduced/paused motion. The speech bubble sits to the left of her head, and the host never intercepts clicks.
+- All three host images are horizontally mirrored with `scaleX(-1)` on `.blog-guide-portrait`, separate from the breathing/exit transform. Morning uses `nerd-female-host.png`; evening uses `nerd-female-evening.png`; night uses `nerd-female-night.png` with sleepy eyelids and moonlight. A MutationObserver follows `html[data-theme]` for PKT and manual switching. The incoming image must decode before switching; request versions ignore stale loads, failures preserve the visible portrait, and opacity fades share `--theme-fade-duration` (3.2s). Prompts: `assets/blog/THEME-HOST-PROMPTS.md`.
+- Entry says `こんにちは！ / Konnichiwa!`; exit says `ありがとうございます！ / Arigatou gozaimasu!`. The user rejected the childlike delivery; the active greetings now use softer mature female synthesized speech, **VOICEVOX:冥鳴ひまり**, normal style (speaker 14). Local files: `assets/blog/adult-female-konnichiwa.mp3` (~0.90s) and `assets/blog/adult-female-arigatou-gozaimasu.mp3` (~1.40s). Both fit the 1.75-second farewell delay. Retain visible VOICEVOX credit and the terms in `assets/blog/CREDITS.md`. No runtime TTS dependency. Earlier recordings and artwork remain only as design history.
+- Following a portfolio navigation link or a Medium link dismisses the host once. Ordinary same-tab portfolio navigation waits 1.75 seconds for the farewell; article/new-tab links, downloads, and modifier keys retain native behavior. Scrolling does not dismiss the host. A Medium click suppresses reentry until a new visit/return; normal link behavior and modifier keys are preserved. Rapid returns cancel stale exit timers; new speech cancels previous speech. The voice toggle remembers its state in sessionStorage. A blocked playback changes the control to Enable voice. Reduced/paused motion removes sliding, independently of voice mute.
+- Browser autoplay can block sound on a first page visit; the visible greeting still works, and clicking Enable voice plays it. Actual visual/audio browser verification remains outstanding because the available automation tool cannot start with the installed Node runtime.
 
 ## 4. Morning, evening, and night themes
 
@@ -136,6 +149,10 @@ Implementation: `index.html` markup, the name-related rules in `styles.css`, and
 
 Keep the original profile card directly clickable, with no visible "View Analyst Card" button or label. The transparent native button remains for keyboard accessibility.
 
+Keep the original profile card at its original natural size from `styles.css`, fitted to `mainimage.png`; the owner rejected the taller 3:5 version. Measure the original card on opening/resizing and apply its ratio to the popup through `--analyst-card-ratio`. Animate a single uniform scale, never independent width/height scaling. The front clone retains the original card's measured layout size and scales as a whole, preventing image/text reflow at the start and end of the flip. The shorter detail face has no "Let's connect" button, and its artwork fills the available space. It scrolls internally if edited content exceeds the available height.
+
+**Passive interaction hint:** Every 10 seconds between starts, the main-page card turns through 360° on a diagonal `(1,1,0)` axis, with perspective viewed from the upper middle. Its center and original size stay in place. The animation is a continuous three-second rotation with linear timing and no pause at the reverse; the owner rejected the earlier two-second version with a one-second back hold. A decorative, inert copy shows the actual editable detail face; the real native button stays clickable throughout. No visible CTA label is added. `hintInterval` in `analyst-card.js` controls the cadence; `profile-hint-turn` in `analyst-card.css` controls the rotation. Hints stop for the modal, paused/reduced motion, hidden tabs, and cards less than halfway visible, then wait a fresh 10 seconds when eligible again. Clicking during a hint clears it before opening the modal. Resize cancels the current hint, and a 3100ms animation-end fallback restores the original if the event is missed.
+
 The owner later requested a Pokémon-style detail card, designed in code so its skills and other information remain editable. This is an approved use of additional supplied artwork inside the popup, not a new decorative character on the main page.
 
 - `card-design-reference.jpeg` supplies the layout inspiration: corner portrait, large art window, identity/stat header, ability and skill rows, and a compact footer.
@@ -143,9 +160,9 @@ The owner later requested a Pokémon-style detail card, designed in code so its 
 - The `analystCard` object in `profile.js` controls all card copy, artwork paths/crop, ability, techniques, traits, decorative stat, card number, and footer. Defaults reuse the site's interests and skills; the infinity stat is decorative, not a claim of competence.
 - `analyst-card.js` builds the card with DOM text nodes and adds an accessible overlay button to the existing hero figure. `analyst-card.css` supplies the trading-card border, theme-aware surfaces, layout, and animation.
 - A native `<dialog>` opens above the entire website, not just the main column. The original profile face is cloned for the flip; the detail face appears on its reverse. The opening travels/scales from the source card and rotates over 1.15 seconds; closing reverses over 0.85 seconds.
-- Escape, the close button, and outside clicks close it. Native modal behavior contains focus; the script locks background scrolling and restores focus/visibility to the original avatar. The Contact button closes first, then focuses and scrolls to Connect.
+- Escape, the close button, and outside clicks close it. Native modal behavior contains focus; the script locks background scrolling and restores focus/visibility to the original avatar.
 - Short viewports scroll inside the dialog. Resizing and reduced-motion changes settle an in-progress animation; reduced/paused motion opens and closes immediately.
-- Tests in `tests/analyst-card.test.cjs` cover six modal behavior scenarios. Actual browser rendering and native focus containment still need visual/browser QA because the browser service remains unavailable.
+- Tests in `tests/analyst-card.test.cjs` cover nine scenarios, including proportional desktop/mobile geometry, modal behavior, hint timing, click interruption, and visibility/motion suspension. Actual browser rendering and native focus containment still need visual/browser QA.
 
 ## 6. Selected logo and theme versions
 
@@ -209,7 +226,13 @@ Generated artwork was created with the built-in imagegen tool. Final assets were
 | File | Responsibility |
 | --- | --- |
 | `index.html` | Main structure, hero letter groups, scene container, navigation, theme controls, stylesheet/script loading |
-| `profile.js` | Editable biography, skills, social links, projects, achievements, writing |
+| `profile.js` | Editable biography, skills, social links, projects, achievements, blog display settings |
+| `blog.html`, `blog.js`, `blog.css` | Separate Medium article page and bottom-right female host greetings |
+| `data/medium.json` | Real Medium RSS snapshot; ten recent article summaries |
+| `scripts/refresh_medium.py` | Fetch and sanitize the public RSS feed |
+| `scripts/build_site.py`, `.github/workflows/pages.yml` | Stage/deploy static Pages files with daily feed refresh; no automatic commits |
+| `assets/blog/` | Transparent host, local greeting audio, and source credits |
+| `tests/blog.test.cjs`, `tests/test_medium.py` | Blog interaction and RSS-parser checks |
 | `script.js` | Content rendering, link handling, notices, reveals, particles, portrait tilt, motion control, scroll spy, hero-name interaction |
 | `styles.css` | Layout, responsive rules, component styling, typography, hero-name animation |
 | `themes.js` | PKT schedule, early theme initialization, image loading/decoding, crossfade layers, manual/automatic state |
@@ -224,7 +247,7 @@ Generated artwork was created with the built-in imagegen tool. Final assets were
 | `.nojekyll` | GitHub Pages static-site support |
 | `assets/favicon.svg` | Existing favicon; separate from the cleaned main logo |
 
-Preserve stylesheet order: `styles.css`, `themes.css`, `theme-motion.css`, then `analyst-card.css`. Keep `themes.js` early in the head; `profile.js`, `script.js`, and `analyst-card.js` are deferred, in that order.
+Both pages load `styles.css`, `themes.css`, and `theme-motion.css`, with `themes.js` early in the head. The homepage then loads `analyst-card.css`, with deferred `profile.js`, `script.js`, and `analyst-card.js`. The blog instead loads `blog.css`, with deferred `profile.js` and `blog.js`; do not load homepage scripts there. Blog JS owns its motion toggle and footer year. Homepage chapter tracking filters local hash links so the separate Blog page link cannot break scrolling.
 
 ## 9. Content still to personalize
 
@@ -234,8 +257,8 @@ Preserve stylesheet order: `styles.css`, `themes.css`, `theme-motion.css`, then 
 - Six suggested skill labels: threat analysis, network security, security research, incident response, Linux, and Python. These are editable suggestions, not verified credentials.
 - Three project placeholders: Threat investigation, Security lab, Tools & automation.
 - Three achievement placeholders: certification, competition/CTF, research milestone.
-- Two writing placeholders: a security write-up and lessons from the lab.
-- Empty GitHub, Medium, LinkedIn, X, and email fields.
+- Blog writing placeholders have been replaced with the real Medium feed.
+- Empty GitHub, LinkedIn, X, and email fields; Medium is configured.
 
 Use complete HTTP(S) URLs for social/project/article links and a plain email address in the email field. Confirm owner-supplied facts before turning placeholders into claims.
 
@@ -259,11 +282,14 @@ Do not hardcode the original workstation path or rely on session-specific tool I
 
 ## 11. Verification status and limits
 
-At the latest code change, **all 16 behavior tests passed: 10 theme tests and 6 collectible-card tests**:
+The latest blog update passed **all 34 checks: 10 theme, 9 collectible-card, 11 blog, and 4 RSS-parser tests**, plus JavaScript syntax checks. Local HTTP checks returned 200 for the feed, character, audio, and new scripts/styles. Static Pages staging succeeded; remote deployment has not been performed. Commands:
 
 ```sh
 node tests/themes.test.cjs
 node tests/analyst-card.test.cjs
+node tests/blog.test.cjs
+python tests/test_medium.py
+node --check blog.js
 node --check themes.js
 node --check script.js
 node --check analyst-card.js
@@ -276,6 +302,8 @@ Coverage includes PKT time boundaries, initial preload, rapid selection races, m
 Local HTTP asset checks, PNG transparency/dimensions, CSS variable references, and JavaScript syntax were also checked during development. Core text contrast was checked for the three final palettes earlier in the work.
 
 **Browser visual verification remains outstanding for the latest theme transitions and collectible-card popup.** The browser service reported no available browser, including when checked during the popup implementation. The automated tests model DOM behavior; they do not prove actual browser rendering, native dialog focus containment, frame smoothness, responsive layout, or font appearance.
+
+During the passive-flip update, computer-use verification was also attempted but its JavaScript tool could not start: the installed Node v22.18.0 is below its required v22.22.0. No visual confirmation of the diagonal flip has been made. Check the continuous three-second 360° turn, return to the front, and click handling during the hint when a browser tool is available.
 
 When a browser is available, verify:
 

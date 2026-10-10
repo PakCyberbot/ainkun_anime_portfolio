@@ -21,9 +21,6 @@ profile.achievements.forEach((item, i) => {
   const link = make('a', 'achievement-year', `${item.year} ↗`); configureLink(link, item.url, item.title);
   row.append(make('span', 'achievement-number', `0${i + 1}`), content, link); document.querySelector('#achievement-list').append(row);
 });
-profile.writing.forEach(item => {
-  const card = make('a', 'writing-card reveal'); configureLink(card, item.url, item.title); card.append(make('span', 'small-label', item.category), make('h3', '', item.title), make('p', '', item.description), make('span', 'text-link', item.url ? 'Read article ↗' : 'ARTICLE COMING SOON ↗')); document.querySelector('#writing-grid').append(card);
-});
 const labels = {github: 'GitHub', medium: 'Medium', linkedin: 'LinkedIn', x: 'X / Twitter', email: 'Email'};
 Object.entries(labels).forEach(([key, label]) => { const link = make('a', 'social-link', `${label} ↗`); configureLink(link, key === 'email' && profile.socials.email ? `mailto:${profile.socials.email}` : profile.socials[key], label); document.querySelector('#socials').append(link); });
 document.querySelectorAll('[data-social]').forEach(link => configureLink(link, profile.socials[link.dataset.social], 'Medium'));
@@ -43,7 +40,7 @@ function resetPortrait() {
   profilePanel.style.setProperty('--tilt-y', '0deg');
 }
 profileStage.addEventListener('pointermove', event => {
-  if (event.pointerType !== 'mouse' || motion.matches || document.body.classList.contains('motion-paused') || document.body.classList.contains('card-popup-open')) return;
+  if (event.pointerType !== 'mouse' || motion.matches || document.body.classList.contains('motion-paused') || document.body.classList.contains('card-popup-open') || profilePanel.classList.contains('card-hint-active')) return;
   const box = profileStage.getBoundingClientRect();
   profilePanel.style.setProperty('--tilt-x', `${(0.5 - (event.clientY - box.top) / box.height) * 6}deg`);
   profilePanel.style.setProperty('--tilt-y', `${((event.clientX - box.left) / box.width - 0.5) * 8}deg`);
@@ -71,7 +68,8 @@ motion.addEventListener('change', updateMotion);
 updateMotion();
 
 // Highlight the chapter currently being read, including direct hash navigation.
-const chapterLinks = [...document.querySelectorAll('.nav-item')];
+const chapterLinks = [...document.querySelectorAll('.nav-item[href^="#"]')]
+  .filter(link => document.getElementById(link.hash.slice(1)));
 const chapters = chapterLinks.map(link => document.querySelector(link.getAttribute('href')));
 let scrollFramePending = false;
 function updateChapter() {

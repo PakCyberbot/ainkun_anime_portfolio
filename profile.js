@@ -33,11 +33,11 @@ window.PORTFOLIO = {
       { label: "TOOLS", value: "Linux · Python" },
       { label: "GROWTH", value: "Every day" }
     ],
-    contactLabel: "Let's connect",
     motto: "A curious mind. A defender's instinct.",
     edition: "PERSONAL COLLECTION / 01"
   },
-  socials: { github: "", medium: "", linkedin: "", x: "", email: "" }, // email: plain email address
+  blog: { feed: "data/medium.json", maxPosts: 10 },
+  socials: { github: "", medium: "https://ainkun.medium.com", linkedin: "", x: "", email: "" }, // email: plain email address
   projects: [
     { title: "Threat investigation", category: "01 / ANALYSIS", description: "Add an investigation: the problem, your approach, tools used, and what you discovered.", tags: ["Threat analysis", "Investigation"], url: "", icon: "◎" },
     { title: "Security lab", category: "02 / HANDS-ON", description: "Showcase a home lab or security experiment. Add screenshots, methods, and lessons learned.", tags: ["Lab", "Detection"], url: "", icon: "⌘" },
@@ -47,9 +47,5 @@ window.PORTFOLIO = {
     { title: "Your certification", description: "Add the certification name, issuer, and verification link.", year: "YEAR", type: "CERTIFICATION", url: "" },
     { title: "Your competition or CTF", description: "Add an event, your result, and a short description of the challenge.", year: "YEAR", type: "COMPETITION", url: "" },
     { title: "Your research milestone", description: "Add a published finding, recognition, or learning milestone.", year: "YEAR", type: "RESEARCH", url: "" }
-  ],
-  writing: [
-    { title: "Your first security write-up", description: "Add a Medium article about a security topic you explored.", category: "SECURITY RESEARCH", url: "" },
-    { title: "Lessons from the lab", description: "Add a walkthrough, investigation, or practical learning story.", category: "LAB NOTES", url: "" }
   ]
 };

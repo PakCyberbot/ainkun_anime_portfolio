@@ -6,11 +6,15 @@ An anime-inspired, responsive portfolio for **Muhammad Hussain Kas (ainkun)**. P
 
 For the complete design history, approved choices, file map, and future handoff, read [SUMMARY.md](SUMMARY.md).
 
+When working with an assistant, ask the owner before making Git commits. Complete and validate major changes, then request approval for the concrete commit.
+
 ## Customize
 
 Hover over the hero name to transform `AINKUN` into `HUSSAIN K`, keeping the final dot. The shared `AIN` and `K` move into place while `UN` fades out and `HUSS` appears. Moving away reverses it. Keyboard focus reveals the name, and mobile taps toggle it. The heading fits both names to the available width and respects the motion pause button and reduced-motion preferences.
 
 Click or tap the hero avatar card to open an editable collectible analyst card. It flies from the avatar, grows into the center of the whole window, and flips to its detailed side. Escape, the close button, or a click outside reverses the animation. The popup traps focus through a native modal dialog, locks page scrolling, and restores focus to the avatar when closed. Short windows can scroll within the popup.
+
+Every 10 seconds while visible, the avatar gives a subtle preview: a continuous diagonal 360° turn in place over three seconds, with no pause at the reverse. The turn uses a constant angular speed, preserves the original size, and remains clickable. It stops while the popup is open, the tab is hidden, the card is off-screen, or motion is reduced/paused.
 
 ### Edit the collectible card
 
@@ -25,13 +29,33 @@ Change the `analystCard` object in [profile.js](profile.js). The card is built i
 | `ability.title`, `ability.description` | Featured ability heading and copy |
 | `techniques` | Editable skill rows with `symbol`, `title`, `description`, and `tag` |
 | `traits` | Small footer stats with `label` and `value` |
-| `contactLabel`, `motto`, `edition` | Contact-button text and collection footer |
+| `motto`, `edition` | Collection motto and footer |
 
-The central art is `card-main-image.jpeg`; the corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The Contact button closes the popup and moves to the site's Connect section. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
+The central art is `card-main-image.jpeg`; the corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
 
 ### Edit the portfolio content
 
-Edit **`profile.js`** to change the biography, skills, projects, achievements, articles, and social URLs. All achievements and projects are explicitly placeholders, not claims of completed work. Replace them with your actual work before publishing. Empty URLs show a “coming soon” message rather than leading visitors to fake profiles.
+Edit **`profile.js`** to change the biography, skills, projects, achievements, blog display settings, and social URLs. All achievements and projects are explicitly placeholders, not claims of completed work. Replace them with your actual work before publishing. Empty URLs show a “coming soon” message rather than leading visitors to fake profiles. Medium is configured as `https://ainkun.medium.com`.
+
+### Medium blog and VTuber-style host
+
+The **Blog** navigation item and homepage chapter tile open the separate `blog.html` page in the same tab. The page shares the portfolio sidebar, fixed background, and all three PKT themes. It shows up to ten real articles from [ainkun's Medium RSS feed](https://ainkun.medium.com/feed), with cover images, dates, short excerpts, and links that open on Medium. `blog.maxPosts` and `blog.feed` live in `profile.js`.
+
+On opening the blog page, a large nerdy adult female anime host rises from below the bottom-right edge with **こんにちは / Konnichiwa**. Following a portfolio navigation link or clicking a Medium link triggers **ありがとうございます / Arigatou gozaimasu**, then she slides down. Voice can be muted independently of motion; its preference lasts for the tab session. Browsers may block audio before interaction; the voice button changes to **Enable voice** if needed. Only her upper body is visible, with the lower body cropped outside the window. Desktop height is up to 460px (53% of the viewport); mobile uses up to 285px (34%). A subtle breathing motion keeps the portrait relaxed. Reduced/paused motion removes both the sliding and breathing animations. The host stays visible while scrolling the blog and is exclusive to this page. Ordinary portfolio navigation waits 1.75 seconds for the farewell; Medium links and modified clicks keep their native behavior.
+
+The browser fetches the same-origin `data/medium.json` on entry and caches it for five minutes. `scripts/refresh_medium.py` reads Medium's RSS to produce that file; it does not copy full articles or require a public CORS proxy. The checked-in snapshot contains real fetched articles, and its sync date is displayed. This follows [Medium's supported RSS format](https://help.medium.com/hc/en-us/articles/214874118-Using-RSS-feeds-of-profiles-publications-and-topics).
+
+To refresh articles locally or on another static host:
+
+```sh
+python scripts/refresh_medium.py
+```
+
+Use `python3` on macOS/Linux or `py` on Windows if needed. If an obsolete environment proxy prevents the connection, `--direct` ignores proxy variables for this request. `--allow-stale` retains the bundled snapshot with a warning if Medium is unavailable. A simple localhost server does not refresh Medium by itself.
+
+The included GitHub Pages workflow refreshes the feed on pushes to `main`, manual runs, and daily around **08:17 PKT**. Refreshes go into the deployment artifact; **the workflow makes no Git commits**. Enable it as described below. Other hosts and branch-based Pages deployments must refresh and upload the JSON manually.
+
+Character and audio files are in `assets/blog/`. The nerdy female host has three portraits: `nerd-female-host.png` (morning), `nerd-female-evening.png` (sunset), and `nerd-female-night.png` (sleepy). CSS mirrors all three toward the article content. Portraits follow automatic PKT and manual theme changes, crossfading over 3.2 seconds after the incoming image decodes; rapid changes keep the latest selection. The calmer female greetings are synthesized with **VOICEVOX:冥鳴ひまり**, saved locally as `adult-female-konnichiwa.mp3` and `adult-female-arigatou-gozaimasu.mp3`. No external speech service is needed during playback. See [asset credits](assets/blog/CREDITS.md), [the original generation prompt](assets/blog/FEMALE-HOST-PROMPT.md), and [theme variant prompts](assets/blog/THEME-HOST-PROMPTS.md). Keep the VOICEVOX credit when reusing the audio. Previous variants are retained as design history.
 
 - Set `socials.github`, `medium`, `linkedin`, and `x` to complete `https://...` URLs.
 - Set `socials.email` to your plain email address, or leave it empty.
@@ -117,7 +141,7 @@ Use the top-right theme buttons to check all three scenes. Additional preview pa
 
 Press **Ctrl+C** in the server terminal to stop it. If port 8000 is occupied, use `8001` in the command and open `http://127.0.0.1:8001/` instead.
 
-Opening `index.html` directly can work, but serving it over localhost is preferable when checking assets and browser behavior.
+Use the localhost server; opening `index.html` directly can block the blog's JSON fetch under browser file-access rules.
 
 ## Publish on GitHub Pages
 
@@ -154,11 +178,14 @@ The main website's files should be arranged like this:
 ```text
 repository-root/
 ├── index.html
+├── blog.html
 ├── styles.css
 ├── themes.css
 ├── theme-motion.css
 ├── analyst-card.css
 ├── analyst-card.js
+├── blog.css
+├── blog.js
 ├── profile.js
 ├── script.js
 ├── themes.js
@@ -168,11 +195,16 @@ repository-root/
 ├── .nojekyll
 ├── README.md
 ├── SUMMARY.md
+├── data/medium.json
+├── scripts/refresh_medium.py
+├── scripts/build_site.py
+├── .github/workflows/pages.yml
 └── assets/
     ├── favicon.svg
     ├── morning-street.png
     ├── evening-street.png
     ├── night-street.png
+    ├── blog/                 # Character, two MP3s, and asset credits
     └── logo-clean/
         └── ainkun-clean.png
 ```
@@ -182,11 +214,13 @@ Keep the other preview HTML pages, reference images, tests, and historical asset
 ### 3. Enable Pages
 
 1. Open the repository's **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-3. Select **main** and **/ (root)**, then **Save**. If you use a different branch, select the branch containing the website.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Open **Actions → Refresh Medium and deploy portfolio → Run workflow** on `main`. Later pushes and the daily schedule run it automatically. If you use another default branch, update `branches: [main]` in `.github/workflows/pages.yml`.
 4. Check the deployment status in **Actions**. Once it completes, return to Pages and use **Visit site**.
 
-The selected branch must already exist, so upload the files first. No custom workflow file is needed for this project. GitHub still handles deployment through its Pages workflow. See [GitHub's publishing-source instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
+Upload the files first, including the `.github` directory. The workflow fetches public RSS, stages only public site files in `_site/`, and publishes using GitHub's standard Pages actions. It requires no API key or custom secret and never writes commits. Scheduled runs may be delayed; a refresh failure keeps the bundled feed and logs a warning. See [GitHub's custom Pages workflow instructions](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+For manual feed updates instead, omit/disable the custom workflow, select **Deploy from a branch → main → / (root)**, and run `python scripts/refresh_medium.py` before uploading updated files. Both methods serve the same static website.
 
 ### 4. Open the published site
 
@@ -222,11 +256,16 @@ With Node.js installed, run from the project root:
 node --check script.js
 node --check themes.js
 node --check analyst-card.js
+node --check blog.js
 node tests/themes.test.cjs
 node tests/analyst-card.test.cjs
+node tests/blog.test.cjs
+python tests/test_medium.py
 ```
 
-The theme suite contains 10 behavior tests. Six additional card tests check opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, contact navigation, and resizing. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
+The theme suite contains 10 behavior tests. Nine additional card tests check proportional desktop/mobile sizing, opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, resizing, timed diagonal hints, clicks during hints, and suspension/resumption when hidden or paused. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
+
+Eleven blog tests cover feed validation, caching/retry, portrait decoding and theme races, page navigation and modifier keys, greeting/farewell state, mute controls, blocked autoplay, and interrupted audio. Four Python tests cover RSS parsing, empty/error responses, and duplicate/unsafe links. Browser appearance and actual audio playback still need manual verification.
 
 For the latest validation results and outstanding browser checks, see [SUMMARY.md](SUMMARY.md#11-verification-status-and-limits).
 
@@ -236,6 +275,9 @@ For the latest validation results and outstanding browser checks, see [SUMMARY.m
 | --- | --- |
 | Python command is not recognized | Install Python 3, reopen the terminal, and try the platform-specific command above. |
 | Localhost refuses the connection | Keep the server terminal open and use the same port as the server command. |
+| Blog articles do not load | Use localhost rather than `file://`; check that `data/medium.json` is included, then use the retry button. |
+| Blog posts look out of date | Run the feed refresh script locally, or enable/run the GitHub Pages workflow. Check the visible sync date. |
+| Chibi is visible but silent | Click Enable voice; browsers can block playback before interaction. Check the voice toggle and device volume. |
 | The browser shows a directory listing | Start the server from the folder containing `index.html`. |
 | Port 8000 is in use | Start the server on 8001 and update the browser URL to match. |
 | Git asks for your identity | Configure your Git author name and email, then retry the commit. |

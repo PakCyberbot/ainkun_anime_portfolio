@@ -6,6 +6,21 @@ body.card-popup-open { overflow:hidden; }
 .profile-card-open:focus-visible { outline:3px solid var(--accent);outline-offset:-5px; }
 .profile-panel.card-source-hidden { visibility:hidden; }
 
+/* Keep the real card's size and click target while its decorative twin turns. */
+.profile-panel.card-hint-active { visibility:hidden; }
+.profile-panel.card-hint-active .profile-card-open { visibility:visible; }
+.profile-card-hint { position:absolute;pointer-events:none;perspective:1000px;perspective-origin:50% 0; }
+.profile-card-hint[hidden] { display:none; }
+.profile-hint-rotor { position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:profile-hint-turn 3s linear both; }
+.profile-hint-front,.profile-hint-back { position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden; }
+.profile-hint-front .profile-panel { width:100%;height:100%;margin:0;transform:none!important;animation:none!important;transition:none!important;translate:none; }
+.profile-hint-back { transform:rotate3d(1,1,0,180deg); }
+.profile-hint-back .collectible-card { inset:auto;left:0;top:0;width:420px;height:var(--hint-detail-height);transform:scale(var(--hint-detail-scale));transform-origin:top left;overflow:hidden; }
+@keyframes profile-hint-turn {
+  0% { transform:rotate3d(1,1,0,0deg); }
+  100% { transform:rotate3d(1,1,0,360deg); }
+}
+
 .card-dialog {
   position:fixed;inset:0;width:100%;height:100%;height:100dvh;
   max-width:none;max-height:none;margin:0;padding:44px 22px;
@@ -23,14 +38,11 @@ body.card-popup-open { overflow:hidden; }
   cursor:pointer;box-shadow:0 3px 15px #0003;
 }
 .card-dismiss:hover { background:var(--surface-tint); }
-.card-flight { position:relative;transform-origin:center;perspective:1600px; }
-.card-flipper { display:grid;position:relative;transform-style:preserve-3d;transform:rotateY(180deg); }
+.card-flight { position:relative;aspect-ratio:var(--analyst-card-ratio);transform-origin:center;perspective:1600px; }
+.card-flipper { display:grid;position:relative;height:100%;transform-style:preserve-3d;transform:rotateY(180deg); }
 .card-face { grid-area:1/1;min-width:0;-webkit-backface-visibility:hidden;backface-visibility:hidden; }
 .card-front { position:absolute;inset:0;transform:rotateY(0deg);pointer-events:none; }
-.card-front .profile-panel { width:100%;height:100%;margin:0;display:flex;flex-direction:column;transform:none!important;animation:none!important;translate:none;box-shadow:none; }
-.card-front .profile-image-wrap { flex:1;min-height:0;aspect-ratio:auto; }
-.card-front .profile-image { object-fit:contain; }
-.card-front .profile-panel figcaption { flex-shrink:0; }
+.card-front .profile-panel { width:var(--card-source-width);height:var(--card-source-height);margin:0;transform:scale(var(--card-face-scale))!important;transform-origin:top left;animation:none!important;transition:none!important;translate:none; }
 .card-dialog-help { margin:18px 0 0;color:#f2f1e7;text-align:center;font:10px/1.7 var(--mono);text-shadow:0 1px 8px #0008; }
 .card-dialog-help span { display:block;color:#d1dcd7;font-size:9px; }
 .card-dialog[data-state="opening"] .card-flight { animation:card-fly-in 1.15s cubic-bezier(.22,1,.36,1) both; }
@@ -43,16 +55,18 @@ body.card-popup-open { overflow:hidden; }
 
 .collectible-card {
   --card-metal:var(--button-edge);
-  position:relative;isolation:isolate;transform:rotateY(180deg);
+  position:absolute;inset:0;min-height:0;isolation:isolate;transform:rotateY(180deg);
+  display:flex;flex-direction:column;
   padding:10px;border:7px solid var(--card-metal);border-radius:18px;
   background:linear-gradient(135deg,var(--surface),var(--paper) 45%,var(--surface-tint));
   box-shadow:0 0 0 1px #fff8 inset,0 0 0 1px #70512a,0 20px 80px #0005,0 3px 12px #0004;
-  overflow:hidden;color:var(--ink);
+  overflow:auto;overscroll-behavior:contain;color:var(--ink);
 }
 .collectible-card::before {
   content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.4;
   background:repeating-linear-gradient(118deg,transparent 0 25px,#fff3 26px,transparent 27px 50px),radial-gradient(ellipse at 5% 0%,#fff9,transparent 50%);
 }
+.collectible-header,.collectible-body,.collectible-footer { flex-shrink:0; }
 .collectible-header { display:flex;align-items:center;gap:10px;padding:2px 3px 11px; }
 .collectible-portrait { width:51px;height:54px;flex-shrink:0;padding:3px;background:var(--surface-tint);border:1px solid var(--card-metal);border-radius:11px 5px 11px 5px;box-shadow:0 1px 0 #fff9 inset; }
 .collectible-portrait img { display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;border-radius:7px 2px 7px 2px; }
@@ -64,8 +78,8 @@ body.card-popup-open { overflow:hidden; }
 .collectible-stat strong { display:block;font:600 33px/1.1 var(--display);color:var(--title); }
 .collectible-energy { display:grid;place-items:center;flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid var(--card-metal);box-shadow:0 0 0 2px var(--surface-tint);font-size:23px;color:var(--accent); }
 
-.collectible-artwork { position:relative;margin:0;aspect-ratio:1.5;border:2px solid var(--card-metal);border-radius:4px;overflow:hidden;background:var(--portrait-end); }
-.collectible-main-image { display:block;width:100%;height:100%;object-fit:cover; }
+.collectible-artwork { position:relative;margin:0;flex:1;min-height:120px;border:2px solid var(--card-metal);border-radius:4px;overflow:hidden;background:var(--portrait-end); }
+.collectible-main-image { position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover; }
 .collectible-artwork::after { content:'';position:absolute;inset:0;pointer-events:none;box-shadow:0 0 0 1px #fff5 inset,0 0 24px #19271d24 inset; }
 .collectible-ribbon { position:absolute;right:0;top:12px;padding:5px 11px 5px 19px;background:var(--accent);color:var(--button-ink);font:700 8px/1.4 var(--mono);letter-spacing:1.2px;clip-path:polygon(9px 0,100% 0,100% 100%,0 100%); }
 .collectible-art-caption { position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;background:linear-gradient(transparent,#17271ee8);color:#fffbea;font:8px/1.5 var(--mono);letter-spacing:.2px; }
@@ -85,23 +99,19 @@ body.card-popup-open { overflow:hidden; }
 .collectible-trait { flex:1;min-width:75px; }
 .collectible-trait dt { font:7px/1.5 var(--mono);letter-spacing:.7px;color:var(--muted); }
 .collectible-trait dd { margin:3px 0 0;font-size:10px;font-weight:600;line-height:1.4; }
-.collectible-connect { width:100%;display:flex;align-items:center;gap:10px;margin-top:8px;padding:6px 10px;background:var(--surface-tint);color:var(--ink);border:1px solid var(--line);border-radius:4px;cursor:pointer; }
-.collectible-connect>span:first-child { font:8px var(--mono);letter-spacing:.5px;color:var(--accent); }
-.collectible-connect strong { flex:1;text-align:left;font:700 16px/1.2 var(--display); }
-.collectible-connect:hover { background:var(--surface-hover); }
 .collectible-motto { margin:9px 0 6px;font-size:9px;font-style:italic;line-height:1.5;color:var(--muted); }
 .collectible-card footer.collectible-footer { display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 4px 0;background:none;border-top:1px solid var(--line); }
 .collectible-footer>span { font:7px/1.4 var(--mono);color:var(--secondary-ink);letter-spacing:.2px; }
 .collectible-footer>span:last-child { color:var(--accent);white-space:nowrap; }
 
 @keyframes card-fly-in {
-  from { transform:translate(var(--card-origin-x),var(--card-origin-y)) scale(var(--card-origin-sx),var(--card-origin-sy)) rotate(3deg); }
+  from { transform:translate(var(--card-origin-x),var(--card-origin-y)) scale(var(--card-origin-scale)) var(--card-origin-pose); }
   to { transform:none; }
 }
 @keyframes card-turn-in { from { transform:rotateY(0deg); } to { transform:rotateY(180deg); } }
 @keyframes card-fly-out {
   from { transform:var(--card-close-from); }
-  to { transform:translate(var(--card-origin-x),var(--card-origin-y)) scale(var(--card-origin-sx),var(--card-origin-sy)) rotate(3deg); }
+  to { transform:translate(var(--card-origin-x),var(--card-origin-y)) scale(var(--card-origin-scale)) var(--card-origin-pose); }
 }
 @keyframes card-turn-out { from { transform:var(--card-flip-from); } to { transform:rotateY(0deg); } }
 @keyframes card-veil-in { from { background:#0c182800;backdrop-filter:blur(0); } to { background:#0c1828b8;backdrop-filter:blur(7px); } }

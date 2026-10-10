@@ -263,21 +263,10 @@
   window.addEventListener('pageshow', event => { if (event.persisted) visit.sync(true, true); });
 
   document.querySelector('#year').textContent = new Date().getFullYear();
-  const motionButton = document.querySelector('.motion-toggle');
-  let userPausedMotion = false;
   function updateMotion() {
-    const paused = userPausedMotion || reduced.matches;
-    document.body.classList.toggle('motion-paused', paused);
-    document.documentElement.dataset.motionPaused = String(paused);
-    motionButton.setAttribute('aria-pressed', String(paused));
-    motionButton.disabled = reduced.matches;
-    const label = reduced.matches ? 'Animations paused by your reduced-motion preference'
-      : paused ? 'Resume decorative animations' : 'Pause decorative animations';
-    motionButton.setAttribute('aria-label', label);
-    motionButton.title = label;
-    motionButton.textContent = paused ? '▷' : 'Ⅱ';
+    document.body.classList.toggle('motion-paused', reduced.matches);
+    document.documentElement.dataset.motionPaused = String(reduced.matches);
   }
-  motionButton.addEventListener('click', () => { userPausedMotion = !userPausedMotion; updateMotion(); });
   reduced.addEventListener('change', updateMotion);
   updateMotion();
   // Paint the below-window pose before transitioning into the first greeting.

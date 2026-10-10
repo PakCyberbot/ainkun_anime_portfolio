@@ -4,22 +4,22 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const { themeForDate } = require('../themes.js');
 
-test('PKT transitions at 05:00, 17:00, and 20:00, including midnight', () => {
-  for (const [utc, expected] of [
-    ['2026-10-08T23:59:59Z', 'night'],
-    ['2026-10-09T00:00:00Z', 'morning'],
-    ['2026-10-09T11:59:59Z', 'morning'],
-    ['2026-10-09T12:00:00Z', 'evening'],
-    ['2026-10-09T14:59:59Z', 'evening'],
-    ['2026-10-09T15:00:00Z', 'night'],
-    ['2026-10-09T19:00:00Z', 'night'],
-    ['2026-12-31T23:59:59Z', 'night'],
-    ['2027-01-01T00:00:00Z', 'morning']
-  ]) assert.equal(themeForDate(new Date(utc)), expected, utc);
+test('local time transitions at 05:00, 17:00, and 20:00, including midnight', () => {
+  for (const [localTime, expected] of [
+    ['2026-10-09T04:59:59', 'night'],
+    ['2026-10-09T05:00:00', 'morning'],
+    ['2026-10-09T16:59:59', 'morning'],
+    ['2026-10-09T17:00:00', 'evening'],
+    ['2026-10-09T19:59:59', 'evening'],
+    ['2026-10-09T20:00:00', 'night'],
+    ['2026-10-10T00:00:00', 'night'],
+    ['2027-01-01T04:59:59', 'night'],
+    ['2027-01-01T05:00:00', 'morning']
+  ]) assert.equal(themeForDate(new Date(localTime)), expected, localTime);
 });
 
-function harness(utc = '2026-10-09T07:00:00Z', { reduced = false, paused = false } = {}) {
-  let now = utc;
+function harness(localTime = '2026-10-09T12:00:00', { reduced = false, paused = false } = {}) {
+  let now = localTime;
   const node = (dataset = {}) => ({ dataset, attributes: {}, listeners: {}, children: [], style: {}, offsetWidth: 1,
     setAttribute(key, value) { this.attributes[key] = value; },
     addEventListener(key, value) { this.listeners[key] = value; },
@@ -53,10 +53,10 @@ function harness(utc = '2026-10-09T07:00:00Z', { reduced = false, paused = false
     settle: () => new Promise(resolve => setImmediate(resolve)) };
 }
 
-test('initial state uses PKT and preloads only the selected scene', () => {
-  const h = harness('2026-10-09T17:30:00Z');
+test('initial state uses local time and preloads only the selected scene', () => {
+  const h = harness('2026-10-09T22:30:00');
   assert.equal(h.root.dataset.theme, 'night');
-  assert.equal(h.clock.textContent, '22:30 PKT');
+  assert.equal(h.clock.textContent, '22:30 Local');
   assert.equal(h.controls.dataset.mode, 'auto');
   assert.equal(h.preloads.length, 1);
   assert.equal(h.preloads[0].href, 'assets/night-street.png');
@@ -79,15 +79,15 @@ test('rapid previews wait for images and the last choice wins', async () => {
   assert.equal(h.controls.attributes['aria-busy'], 'false');
 });
 
-test('preview survives time changes, and Use PKT time restores automatic changes', async () => {
+test('preview survives time changes, and Use local time restores automatic changes', async () => {
   const h = harness();
   h.click('night'); h.images[0].onload(); await h.settle();
-  h.advance('2026-10-09T12:30:00Z');
+  h.advance('2026-10-09T17:30:00');
   assert.equal(h.root.dataset.theme, 'night');
   h.resume(); h.images[1].onload(); await h.settle();
   assert.equal(h.root.dataset.theme, 'evening');
   assert.equal(h.controls.dataset.mode, 'auto');
-  h.advance('2026-10-09T15:00:00Z'); await h.settle();
+  h.advance('2026-10-09T20:00:00'); await h.settle();
   assert.equal(h.root.dataset.theme, 'night');
 });
 
@@ -110,10 +110,10 @@ test('returning to automatic cancels an unfinished manual preview', async () => 
 });
 
 test('a clock boundary supersedes an automatic scene still loading', async () => {
-  const h = harness('2026-10-09T14:59:00Z');
+  const h = harness('2026-10-09T19:59:00');
   h.click('night'); h.images[0].onload(); await h.settle();
-  h.resume(); // Evening is still loading as 20:00 PKT arrives.
-  h.advance('2026-10-09T15:00:00Z'); await h.settle();
+  h.resume(); // Evening is still loading as 20:00 local time arrives.
+  h.advance('2026-10-09T20:00:00'); await h.settle();
   h.images[1].onload(); await h.settle();
   assert.equal(h.root.dataset.theme, 'night');
   assert.equal(h.controls.attributes['aria-busy'], 'false');
@@ -140,7 +140,7 @@ test('a new scene fades over the existing blend and stale cleanup cannot remove 
 
 test('reduced motion and paused animations replace the scene immediately', async () => {
   for (const preference of [{ reduced: true }, { paused: true }]) {
-    const h = harness('2026-10-09T07:00:00Z', preference);
+    const h = harness('2026-10-09T12:00:00', preference);
     h.click('night'); h.images[0].onload(); await h.settle();
     assert.equal(h.stack.children.length, 1);
     assert.equal(h.stack.children[0].style.opacity, '1');

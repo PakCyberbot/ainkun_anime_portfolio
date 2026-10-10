@@ -1,11 +1,11 @@
-/* Pakistan Standard Time controls the default, regardless of visitor timezone. */
+/* Follow the visitor's device clock and local timezone. */
 (() => {
   'use strict';
   const clock = new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Asia/Karachi', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+    hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
   });
   function themeForDate(date = new Date()) {
-    const hour = Number(clock.formatToParts(date).find(part => part.type === 'hour').value);
+    const hour = date.getHours();
     return hour >= 5 && hour < 17 ? 'morning' : hour >= 17 && hour < 20 ? 'evening' : 'night';
   }
   // Makes the real timezone logic testable without a browser or dependencies.
@@ -68,10 +68,10 @@
 
     function render() {
       buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.setTheme === current)));
-      autoButton.textContent = automatic ? 'Auto · PKT' : 'Use PKT time';
+      autoButton.textContent = automatic ? 'Auto · Local' : 'Use local time';
       autoButton.setAttribute('aria-pressed', String(automatic));
-      autoButton.title = automatic ? 'Following Pakistan time' : 'Return to automatic Pakistan time';
-      time.textContent = clock.format(new Date()) + ' PKT';
+      autoButton.title = automatic ? 'Following your local time' : 'Return to automatic local time';
+      time.textContent = clock.format(new Date()) + ' Local';
       controls.dataset.mode = automatic ? 'auto' : 'preview';
       controls.setAttribute('aria-busy', String(pending !== null));
     }
@@ -111,7 +111,7 @@
         root.dataset.theme = theme;
         if (meta) meta.content = scenes[theme].color;
         render();
-        if (announce) status.textContent = `${scenes[theme].label} theme. ${automatic ? 'Following Pakistan time.' : 'Preview mode. Choose Use PKT time to return to automatic.'}`;
+        if (announce) status.textContent = `${scenes[theme].label} theme. ${automatic ? 'Following your local time.' : 'Preview mode. Choose Use local time to return to automatic.'}`;
       } catch {
         if (version !== request) return;
         pending = null;

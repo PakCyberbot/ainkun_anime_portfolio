@@ -1,6 +1,6 @@
 # ainkun — Cybersecurity Portfolio
 
-An anime-inspired, responsive portfolio for **Muhammad Hussain Kas (ainkun)**. Plain HTML, CSS, and JavaScript: no build, installation, or framework required. Features three matching morning, evening, and night neighborhood panoramas that stay fixed behind the full page, bilingual Japanese/English navigation, warm cream and sage-green game-menu panels, your profile avatar, sunlit drifting particles, scroll reveals, a translucent final contact section, and a motion pause button. Respects reduced-motion preferences.
+An anime-inspired, responsive portfolio for **ainkun**. Plain HTML, CSS, and JavaScript: no build, installation, or framework required. Features three matching morning, evening, and night neighborhood panoramas that stay fixed behind the full page, bilingual Japanese/English navigation, warm cream and sage-green game-menu panels, your profile avatar, sunlit drifting particles, scroll reveals, a translucent final contact section, and system reduced-motion support. Respects reduced-motion preferences.
 
 **Start here:** [Run on localhost](#run-on-localhost) · [Publish on GitHub Pages](#publish-on-github-pages) · [Update the live website](#update-the-live-website) · [Troubleshooting](#troubleshooting)
 
@@ -29,18 +29,19 @@ Change the `analystCard` object in [profile.js](profile.js). The card is built i
 | `portraitImage`, `portraitImageAlt` | Small top-left portrait |
 | `ability.title`, `ability.description` | Featured ability heading and copy |
 | `techniques` | Editable skill rows with `symbol`, `title`, `description`, and `tag` |
-| `traits` | Small footer stats with `label` and `value` |
+| `stats` | Specialty labels shown in the STATS grid |
+| `traits` | Optional footer details with `label` and `value` |
 | `motto`, `edition` | Collection motto and footer |
 
 The central art plays `card-back-main-clip.mp4` silently in a loop, using `card-main-image.jpeg` as its poster and fallback. It plays only while the popup or flip preview is visible, and pauses when hidden or motion is disabled. The corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
 
 ### Edit the portfolio content
 
-Edit **`profile.js`** to change the biography, skills, projects, achievements, blog display settings, and social URLs. All achievements and projects are explicitly placeholders, not claims of completed work. Replace them with your actual work before publishing. Empty URLs show a “coming soon” message rather than leading visitors to fake profiles. Medium is configured as `https://ainkun.medium.com`.
+Edit **`profile.js`** to change the biography, skills, projects, achievements, blog display settings, and social URLs. Projects and achievements contain owner-supplied work and results. Project or achievement entries without a supplied URL have no link; they are not labeled as placeholders. Set `project.placeholder: true` only for a future placeholder entry. Social links are configured for [Medium](https://ainkun.medium.com/), [GitHub](https://github.com/ainkun), [LinkedIn](https://www.linkedin.com/in/ainkun/), [X](https://x.com/ain__kun), and `contact@ainkun.com`.
 
 ### Medium blog and VTuber-style host
 
-The **Blog** navigation item and homepage chapter tile open the separate `blog.html` page in the same tab. The page shares the portfolio sidebar, fixed background, and all three PKT themes. It shows up to ten real articles from [ainkun's Medium RSS feed](https://ainkun.medium.com/feed), with cover images, dates, short excerpts, and links that open on Medium. `blog.maxPosts` and `blog.feed` live in `profile.js`.
+The **Blog** navigation item and homepage chapter tile open the separate `blog.html` page in the same tab. The page shares the portfolio sidebar, fixed background, and all three local-time themes. It shows up to ten real articles from [ainkun's Medium RSS feed](https://ainkun.medium.com/feed), with cover images, dates, short excerpts, and links that open on Medium. `blog.maxPosts` and `blog.feed` live in `profile.js`.
 
 On opening the blog page, a large nerdy adult female anime host rises from below the bottom-right edge with **こんにちは / Konnichiwa**. Following a portfolio navigation link or clicking a Medium link triggers **ありがとうございます / Arigatou gozaimasu**, then she slides down. Voice can be muted independently of motion; its preference lasts for the tab session. Browsers may block audio before interaction; the voice button changes to **Enable voice** if needed. Only her upper body is visible, with the lower body cropped outside the window. Desktop height is up to 460px (53% of the viewport); mobile uses up to 285px (34%). A subtle breathing motion keeps the portrait relaxed. Reduced/paused motion removes both the sliding and breathing animations. The host stays visible while scrolling the blog and is exclusive to this page. Ordinary portfolio navigation waits 1.75 seconds for the farewell; Medium links and modified clicks keep their native behavior.
 
@@ -56,7 +57,7 @@ Use `python3` on macOS/Linux or `py` on Windows if needed. If an obsolete enviro
 
 The included GitHub Pages workflow refreshes the feed on pushes to `main`, manual runs, and daily around **08:17 PKT**. Refreshes go into the deployment artifact; **the workflow makes no Git commits**. Enable it as described below. Other hosts and branch-based Pages deployments must refresh and upload the JSON manually.
 
-Character and audio files are in `assets/blog/`. The nerdy female host has three portraits: `nerd-female-host.png` (morning), `nerd-female-evening.png` (sunset), and `nerd-female-night.png` (sleepy). CSS mirrors all three toward the article content. Portraits follow automatic PKT and manual theme changes, crossfading over 3.2 seconds after the incoming image decodes; rapid changes keep the latest selection. The calmer female greetings are synthesized with **VOICEVOX:冥鳴ひまり**, saved locally as `adult-female-konnichiwa.mp3` and `adult-female-arigatou-gozaimasu.mp3`. No external speech service is needed during playback. See [asset credits](assets/blog/CREDITS.md), [the original generation prompt](assets/blog/FEMALE-HOST-PROMPT.md), and [theme variant prompts](assets/blog/THEME-HOST-PROMPTS.md). Keep the VOICEVOX credit when reusing the audio. Previous variants are retained as design history.
+Character and audio files are in `assets/blog/`. The nerdy female host has three portraits: `nerd-female-host.png` (morning), `nerd-female-evening.png` (sunset), and `nerd-female-night.png` (sleepy). CSS mirrors all three toward the article content. Portraits follow automatic local-time and manual theme changes, crossfading over 3.2 seconds after the incoming image decodes; rapid changes keep the latest selection. The calmer female greetings are synthesized with **VOICEVOX:冥鳴ひまり**, saved locally as `adult-female-konnichiwa.mp3` and `adult-female-arigatou-gozaimasu.mp3`. No external speech service is needed during playback. See [asset credits](assets/blog/CREDITS.md), [the original generation prompt](assets/blog/FEMALE-HOST-PROMPT.md), and [theme variant prompts](assets/blog/THEME-HOST-PROMPTS.md). Keep the VOICEVOX credit when reusing the audio. Previous variants are retained as design history.
 
 - Set `socials.github`, `medium`, `linkedin`, and `x` to complete `https://...` URLs.
 - Set `socials.email` to your plain email address, or leave it empty.
@@ -75,17 +76,17 @@ The fonts load from Google Fonts; local fallback fonts keep the page usable offl
 
 ## Time-of-day themes
 
-The website chooses its initial theme using **Pakistan Standard Time (`Asia/Karachi`, UTC+05:00)**, independent of the visitor's device timezone:
+The website chooses its initial theme using **the visitor's device time and local timezone**, without requesting location access:
 
-| Theme | Pakistan time | Palette |
+| Theme | Local time | Palette |
 | --- | --- | --- |
 | Morning / 朝 | 05:00–16:59 | Cream and sage |
 | Evening / 夕暮れ | 17:00–19:59 | Warm parchment and terracotta |
 | Night / 夜 | 20:00–04:59 | Indigo, soft sage, and warm amber |
 
-Use the three buttons at the top right to preview any scene. **Use PKT time** returns to automatic mode. A preview lasts until you return to automatic mode or reload the page; no preference is stored. Automatic mode refreshes every minute and when you return to the tab. The clock always displays PKT. This is a fixed daily schedule, not a sunrise/sunset calculation.
+Use the three buttons at the top right to preview any scene. **Use local time** returns to automatic mode. A preview lasts until you return to automatic mode or reload the page; no preference is stored. Automatic mode refreshes every minute and when you return to the tab. The clock always displays the visitor's local time. This is a fixed daily schedule, not a sunrise/sunset calculation.
 
-`themes.js` sets the initial theme before the page is painted and preloads only its background. Theme changes load and decode their image before blending the street scene and matching palette over 3.2 seconds with gentle easing. The incoming background uses an explicit opacity keyframe animation so the fade starts reliably even when the browser batches updates. Layered backgrounds preserve an in-progress blend during rapid clicks, and older requests cannot replace the latest choice. `theme-motion.css` animates the palette colors, including the logo, title, gradients, and translucent panels. Reduced-motion preferences and the animation pause button make theme changes immediate. If a preview fails to load, the current theme remains available. Without JavaScript the morning palette is the fallback. All three images stay fixed during scrolling, with translucent section backgrounds above them.
+`themes.js` sets the initial theme before the page is painted and preloads only its background. Theme changes load and decode their image before blending the street scene and matching palette over 3.2 seconds with gentle easing. The incoming background uses an explicit opacity keyframe animation so the fade starts reliably even when the browser batches updates. Layered backgrounds preserve an in-progress blend during rapid clicks, and older requests cannot replace the latest choice. `theme-motion.css` animates the palette colors, including the logo, title, gradients, and translucent panels. System reduced-motion preferences make theme changes immediate. If a preview fails to load, the current theme remains available. Without JavaScript the morning palette is the fallback. All three images stay fixed during scrolling, with translucent section backgrounds above them.
 
 To change the schedule, edit `themeForDate()` in `themes.js`. To replace an image, update its entry in both `themes.js` and `themes.css`. Keep their relative paths for GitHub Pages. Run `node tests/themes.test.cjs` to check timezone boundaries and preview behavior; Node is only needed for development checks, not hosting.
 
@@ -288,7 +289,40 @@ For the latest validation results and outstanding browser checks, see [SUMMARY.m
 | Pages returns 404 | Check the selected branch/root folder, ensure `index.html` is at that root, and inspect the deployment status. |
 | Images or styles are missing | Upload the referenced files and preserve exact filename capitalization and relative paths. |
 | The live site shows older content | Wait for the deployment to finish, then hard-refresh: Ctrl+Shift+R on Windows/Linux or Cmd+Shift+R on macOS. |
-| Theme changes or hover effects are instant | Check the website's motion pause control and your operating system's reduced-motion setting. |
+| Theme changes or hover effects are instant | Check your operating system's reduced-motion setting. |
 | Japanese text becomes question marks | Save the file as UTF-8; preserve the original characters when editing. |
 
 For Pages deployment errors, consult the repository's Actions run and [GitHub's publishing troubleshooting](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#troubleshooting-publishing-from-a-branch).
+
+### Current identity and interface details
+
+- Public identity: **ainkun**, **Security Researcher**. Keep the existing AINKUN / HUSSAIN K. hover animation, but do not display the full legal name.
+- Copy focuses on offensive security, reconnaissance, vulnerability research, and attack paths. The profile motto is **Recon / Research / Exploit**.
+- Both sidebars end with the **ainkun.** home wordmark. The bottom-left footer contains **Created by [PakCyberbot](https://pakcyberbot.com)**. The previous learning status and decorative-motion button have been removed; OS reduced-motion support remains.
+- The favicon uses the current transparent `assets/logo-clean/ainkun-clean.png` logo.
+- Explore my work uses white text for morning/evening and transitions to black over 3.2 seconds for night. Its Japanese label inherits the same color.
+- The card's upper-right diamond is drawn in CSS and geometrically centered inside its circle.
+
+### Creator-credit transition
+
+The complete **Created by PakCyberbot** text at the bottom-left of the footer is one padded link in the site's Space Mono font at regular weight, 11px on desktop and 9px on mobile. Ordinary activation of PakCyberbot plays a 2.4-second Japanese character-rain transition, fading toward the bottom, then navigates the current tab to `https://pakcyberbot.com`. The supplied `pakcyberbot.png` appears in the center with a gently pulsing logo and rotating loading ring. Both pages preload it, and the Pages build includes it. The blog farewell can play during this send-off. Ctrl/Cmd/Shift/Alt-click and middle-click retain native behavior; reduced motion follows the link immediately. Escape cancels the transition. Page lifecycle cleanup prevents a stale overlay after Back navigation.
+
+Shared implementation: `credit-transition.js` and `credit-transition.css`, loaded after the page scripts on both pages and automatically included in the Pages build. `node tests/credit-transition.test.cjs` checks navigation timing, repeat clicks, native link behavior, reduced motion, cancellation, and cleanup (four passing tests). Actual browser appearance still needs visual verification.
+
+### Native-zoom layout and researcher content
+
+`responsive.css` loads last on both pages. Desktop navigation uses a 184px rail with compact spacing; the opening hero fills at least one complete viewport (100dvh on desktop, minus the 124px reserved mobile header), with smaller fluid heading/card sizes. There is no maximum-height cap: the archive bar stays below the initial fold at every zoom level. Enlarged content may grow taller to remain accessible. Text remains readable without changing the browser zoom or applying a page-wide transform. Mobile keeps its stacked layout without the previous 950px forced hero minimum. Desktop projects use two columns, stacking on narrower screens.
+
+The About biography introduces Hussain / ainkun as a Security Researcher and experienced CTF participant, covering reverse engineering, malware, mobile security, red teaming, and vulnerability research. The card techniques are **Reverse Engineering** (including malware reversing) and **Mobile Security**. `analystCard.stats` and `skills` contain **Cryptography, Reversing, Programming, Malware Dev, Android Security, AI Automation**; these are labels without invented numerical scores. Optional `traits` remain supported but are omitted from the current card to keep it compact.
+
+Latest validation: all 11 card interaction tests and 4 creator-transition tests pass. Local browser inventory is empty and the in-app browser is unavailable, so native-zoom rendering still requires visual review on the user's display.
+
+The homepage archive bar (`#chapters`) fades and rises into view over one second using the existing reveal observer as the visitor scrolls. **Scroll to explore** smoothly targets this bar before the About section. Scrolling within the content and touch scrolling remain native; the opening wheel boundary uses the panel transition below. Keyboard focus reveals the bar, and system reduced-motion preferences skip the animation.
+
+### Opening chapter panel transition
+
+On the homepage, `chapter-transition.js` turns the opening/content boundary into a 620ms eased transition. A downward mouse-wheel gesture from Chapter 1 lands exactly at the archive bar (below the fixed mobile header). Upward scrolling that reaches this boundary returns to the beginning; scrolling farther down the content is normal. A short 180ms cooldown absorbs trailing wheel momentum. The scroll cue and Arrow/Page/Space keyboard scrolling support the same boundary behavior, with keyboard focus moved to the destination.
+
+Ctrl/Cmd-wheel zoom, horizontal gestures, sidebar scrolling, form controls, card dialogs, and the creator overlay are excluded. Reduced motion jumps immediately. If enlarged text makes the opening chapter taller than the available screen, its internal document range remains scrollable before transitioning out. Resizing settles an active transition; page lifecycle events clear stale frames. Touch and scrollbar navigation remain native. Five DOM-model behavior checks pass with `node tests/chapter-transition.test.cjs`; live browser visual review remains unavailable in this environment.
+
+The sidebar and footer wordmarks have been swapped on both pages: **ainkun.** in the sidebar links home; the footer creator credit retains its regular Space Mono styling and Japanese rain/logo transition to PakCyberbot.

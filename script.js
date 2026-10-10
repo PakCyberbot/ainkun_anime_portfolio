@@ -7,18 +7,26 @@ function configureLink(link, url, label) {
 }
 document.querySelector('#hero-description').textContent = profile.description;
 document.querySelector('#about-copy').textContent = profile.about;
-document.querySelector('#terminal-name').textContent = `${profile.name} // ainkun // cybersecurity analyst`;
+document.querySelector('#terminal-name').textContent = `${profile.name} // Security Researcher`;
 profile.skills.forEach(skill => document.querySelector('#skills').append(make('span', 'skill', skill)));
 profile.projects.forEach(project => {
   const card = make('article', 'project-card reveal');
   const top = make('div', 'card-top'); top.append(make('span', 'project-icon', project.icon), make('span', 'small-label', project.category));
-  card.append(top, make('span', 'placeholder-badge', project.url ? 'PROJECT' : 'PROJECT PLACEHOLDER'), make('h3', '', project.title), make('p', '', project.description));
+  card.append(top, make('span', 'placeholder-badge', project.placeholder ? 'PROJECT PLACEHOLDER' : 'PROJECT'), make('h3', '', project.title), make('p', '', project.description));
   const bottom = make('div', 'card-bottom'); const tags = make('div', 'tags'); project.tags.forEach(tag => tags.append(make('span', '', tag)));
-  const link = make('a', 'project-arrow', '↗'); configureLink(link, project.url, project.title); bottom.append(tags, link); card.append(bottom); document.querySelector('#projects-grid').append(card);
+  bottom.append(tags);
+  if (project.url) {
+    const link = make('a', 'project-arrow', '↗'); configureLink(link, project.url, project.title);
+    link.setAttribute('aria-label', project.linkLabel || `View ${project.title}`);
+    link.title = project.linkLabel || `View ${project.title}`;
+    bottom.append(link);
+  }
+  card.append(bottom); document.querySelector('#projects-grid').append(card);
 });
 profile.achievements.forEach((item, i) => {
   const row = make('div', 'achievement reveal'); const content = make('div', 'achievement-content'); content.append(make('span', 'small-label', item.type), make('h3', '', item.title), make('p', '', item.description));
-  const link = make('a', 'achievement-year', `${item.year} ↗`); configureLink(link, item.url, item.title);
+  const link = make(item.url ? 'a' : 'span', 'achievement-year', item.url ? `${item.year} ↗` : item.year);
+  if (item.url) configureLink(link, item.url, item.title);
   row.append(make('span', 'achievement-number', `0${i + 1}`), content, link); document.querySelector('#achievement-list').append(row);
 });
 const labels = {github: 'GitHub', medium: 'Medium', linkedin: 'LinkedIn', x: 'X / Twitter', email: 'Email'};
@@ -48,22 +56,12 @@ profileStage.addEventListener('pointermove', event => {
 profileStage.addEventListener('pointerleave', resetPortrait);
 motion.addEventListener('change', resetPortrait);
 
-// Give visitors control over decorative motion, while respecting OS preferences.
-const motionButton = document.querySelector('.motion-toggle');
-let userPausedMotion = false;
+// Keep system reduced-motion preferences active without a sidebar toggle.
 function updateMotion() {
-  const paused = userPausedMotion || motion.matches;
-  document.body.classList.toggle('motion-paused', paused);
-  document.documentElement.dataset.motionPaused = String(paused);
-  motionButton.setAttribute('aria-pressed', String(paused));
-  motionButton.disabled = motion.matches;
-  const label = motion.matches ? 'Animations paused by your reduced-motion preference' : paused ? 'Resume decorative animations' : 'Pause decorative animations';
-  motionButton.setAttribute('aria-label', label);
-  motionButton.title = label;
-  motionButton.textContent = paused ? '▷' : 'Ⅱ';
+  document.body.classList.toggle('motion-paused', motion.matches);
+  document.documentElement.dataset.motionPaused = String(motion.matches);
   resetPortrait();
 }
-motionButton.addEventListener('click', () => { userPausedMotion = !userPausedMotion; updateMotion(); });
 motion.addEventListener('change', updateMotion);
 updateMotion();
 

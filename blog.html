@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Muhammad Hussain Kas, aka ainkun — cybersecurity analyst. Read security research and field notes from ainkun on Medium.">
-  <meta name="theme-color" content="#f7f5eb"><title>Blog | ainkun — Cybersecurity Analyst</title>
+  <meta name="description" content="ainkun — Security Researcher. Read security research and field notes from ainkun on Medium.">
+  <meta name="theme-color" content="#f7f5eb"><title>Blog | ainkun — Security Researcher</title>
   <script src="themes.js"></script>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/logo-clean/ainkun-clean.png?v=2" type="image/png"><link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="themes.css">
   <link rel="stylesheet" href="theme-motion.css">
   <link rel="stylesheet" href="blog.css">
   <script src="profile.js" defer></script>
   <script src="blog.js" defer></script>
+  <link rel="stylesheet" href="credit-transition.css">
+  <script src="credit-transition.js" defer></script>
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="preload" as="image" href="pakcyberbot.png">
 </head>
 <body class="blog-page">
   <div class="scene-stack" aria-hidden="true"></div>
@@ -27,7 +31,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z"/><path d="M18 3v4m-2-2h4"/></svg><span>Night</span>
       </button>
     </div>
-    <div class="theme-meta"><button class="theme-auto" type="button" aria-pressed="true">Auto · PKT</button><span class="theme-clock"></span></div>
+    <div class="theme-meta"><button class="theme-auto" type="button" aria-pressed="true">Auto · Local</button><span class="theme-clock"></span></div>
   </aside>
   <span class="sr-only" id="theme-status" role="status" aria-live="polite"></span>
   <header class="sidebar">
@@ -41,7 +45,7 @@
       <a class="nav-item active" href="blog.html" aria-current="page"><span class="nav-icon" aria-hidden="true">▤</span><span><small lang="ja">ブログ</small><strong>BLOG</strong></span><span class="nav-index">04</span></a>
       <a class="nav-item" href="index.html#contact"><span class="nav-icon" aria-hidden="true">↗</span><span><small lang="ja">つながる</small><strong>CONNECT</strong></span><span class="nav-index">05</span></a>
     </nav>
-    <div class="sidebar-bottom"><span class="status-dot"></span> ALWAYS LEARNING <button class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause decorative animations">Ⅱ</button></div>
+    <div class="sidebar-bottom"><a class="brand" href="index.html#home">ainkun<span class="brand-dot">.</span></a></div>
   </header>
   <main id="main">
     <div class="content-shell">
@@ -55,7 +59,7 @@
         <p class="blog-credit">Synthesized voice: <a href="https://voicevox.hiroshiba.jp/product/meimei_himari/" target="_blank" rel="noopener noreferrer">VOICEVOX:冥鳴ひまり</a></p>
       </section>
     </div>
-    <footer><a class="brand" href="index.html#home">ainkun<span class="brand-dot">.</span></a><span>© <span id="year"></span> Muhammad Hussain Kas</span><a href="index.html#home"><span lang="ja">またね</span> / SEE YOU AGAIN ↑</a></footer>
+    <footer><a class="creator-credit" href="https://pakcyberbot.com" data-creator-link>Created by PakCyberbot</a><span>© <span id="year"></span> ainkun</span><a href="index.html#home"><span lang="ja">またね</span> / SEE YOU AGAIN ↑</a></footer>
   </main>
   <aside class="blog-guide" id="blog-guide" data-state="hidden" aria-hidden="true">
     <div class="blog-guide-bubble" role="status" aria-live="polite"><span class="blog-guide-jp" lang="ja">こんにちは！</span><strong class="blog-guide-roman">Konnichiwa!</strong><span class="blog-guide-caption">Welcome to my reading corner.</span></div>

@@ -10,14 +10,14 @@ If the source has changed since this summary was written, reconcile the differen
 
 ## 1. Owner and purpose
 
-- **Full name:** Muhammad Hussain Kas.
+- **Public name:** ainkun. Do not display the full legal name anywhere on the site.
 - **Online identity:** ainkun.
-- **Role:** Cybersecurity Analyst.
+- **Role:** Security Researcher.
 - **Hero name:** `AINKUN.` with an interactive transformation to `HUSSAIN K.`.
 - **Purpose:** A personal portfolio for security work, projects, achievements, research notes, Medium articles, and social links.
 - **Hosting requirement:** Easy to host on GitHub Pages, including a repository subpath, without a build pipeline or backend.
 
-Projects, achievements, and most social URLs still contain intentional placeholders. Medium is now `https://ainkun.medium.com`, and blog articles are fetched from that account's RSS. Do not invent credentials, awards, publications, competition results, or other working social profiles.
+Projects and achievements now contain the owner-supplied FYDP, CTF challenge-authoring work, and competition results. Social links are configured for the supplied GitHub, Medium, LinkedIn, X, and contact email. Medium is `https://ainkun.medium.com/`, and blog articles are fetched from that account's RSS. Do not invent credentials, awards, publications, competition results, or other working social profiles.
 
 ## 2. Current design direction — preserve this
 
@@ -44,7 +44,7 @@ The original style reference was `https://2026.ctf.sekai.team/`. Later feedback 
 - **Noto Sans JP:** Japanese text.
 - **Space Mono:** small labels, metadata, and terminal styling.
 
-Fonts load from Google Fonts with local fallback fonts. Japanese labels include `朝` (morning), `夕暮れ` (evening/dusk), `夜` (night), `探究` (inquiry), and the existing bilingual navigation and section headings.
+Fonts load from Google Fonts with local fallback fonts. Japanese labels include `朝` (morning), `夕暮れ` (evening/dusk), `夜` (night), `探索` (exploration), and the existing bilingual navigation and section headings.
 
 ## 3. Page structure and implemented features
 
@@ -52,15 +52,15 @@ The main page is `index.html`.
 
 - Desktop navigation uses a fixed left sidebar with the logo and bilingual chapter links.
 - On smaller screens, navigation becomes a fixed horizontal header.
-- Three theme buttons and a live PKT clock sit at the top right.
-- The hero contains the animated name, real full name and role, editable introduction, calls to action, and the supplied avatar in a lightly tilted card.
+- Three theme buttons and a live local clock sit at the top right.
+- The hero contains the animated name, Security Researcher role (without the full name), editable introduction, calls to action, and the supplied avatar in a lightly tilted card.
 - Clicking or tapping that avatar opens a collectible analyst card with a flip-and-zoom animation, centered across the full viewport. Its content is editable in `profile.js`.
 - Three chapter cards link into the portfolio content.
 - Homepage sections: Home, About Me, Projects, Achievements, and Connect. Blog & Field Notes lives on a separate `blog.html` page; both the sidebar and homepage chapter tile link there in the same tab.
 - About includes skill chips and a decorative terminal-style panel.
 - Projects, achievements, and social links are rendered from `profile.js`. Blog articles come from `data/medium.json`, fetched from Medium RSS by `scripts/refresh_medium.py`.
 - Empty URLs produce a clear coming-soon notice; usable links are validated before being assigned.
-- Additional interactions include scroll reveals, active-section navigation, subtle particles, avatar pointer tilt, and a motion pause button.
+- Additional interactions include scroll reveals, active-section navigation, subtle particles, avatar pointer tilt, and system reduced-motion support.
 - Keyboard focus states, accessible control labels, a skip link, reduced-motion support, and responsive layouts are present.
 
 ### Blog implementation handoff
@@ -69,16 +69,16 @@ The main page is `index.html`.
 - `scripts/refresh_medium.py` fetches `https://ainkun.medium.com/feed` with Python's standard library, extracts ten recent titles/URLs/dates/thumbnails/tags/short excerpts, and atomically writes the JSON. The current snapshot contains ten real articles, including DLL Injection and DLL Hijacking — OneDrive. It does not fabricate posts or embed full RSS article HTML. `--direct` bypasses a broken environment proxy; `--allow-stale` retains the bundled feed if a refresh fails.
 - `.github/workflows/pages.yml` refreshes on push to main, manual dispatch, and daily around 08:17 PKT, then stages the static site with `scripts/build_site.py` and deploys it. **No automated Git commits.** The user must select GitHub Actions as the Pages source to enable this. No workflow has been pushed or run remotely in this session. Branch-based Pages/other hosts need manual JSON refreshes. Localhost serves the bundled feed without contacting Medium itself.
 - The blog-only generated transparent character is `assets/blog/nerd-female-host.png` (1024 x 1536 RGBA). The current host is based on the supplied `nerd-female-character.jpeg`: glasses, high ponytail, and a cream lab coat with sage accents. The user replaced the earlier male host while preserving the large waist-up framing. She rises from below the bottom-right edge, stays visible during scrolling, and slides below the window when leaving. `.blog-guide-portrait` clips the lower body at the window bottom; desktop height is min(53svh,460px), mobile min(34svh,285px). Portrait width is 84% of this height, so the full image extends below the visible frame. A six-second subtle breathing animation respects reduced/paused motion. The speech bubble sits to the left of her head, and the host never intercepts clicks.
-- All three host images are horizontally mirrored with `scaleX(-1)` on `.blog-guide-portrait`, separate from the breathing/exit transform. Morning uses `nerd-female-host.png`; evening uses `nerd-female-evening.png`; night uses `nerd-female-night.png` with sleepy eyelids and moonlight. A MutationObserver follows `html[data-theme]` for PKT and manual switching. The incoming image must decode before switching; request versions ignore stale loads, failures preserve the visible portrait, and opacity fades share `--theme-fade-duration` (3.2s). Prompts: `assets/blog/THEME-HOST-PROMPTS.md`.
+- All three host images are horizontally mirrored with `scaleX(-1)` on `.blog-guide-portrait`, separate from the breathing/exit transform. Morning uses `nerd-female-host.png`; evening uses `nerd-female-evening.png`; night uses `nerd-female-night.png` with sleepy eyelids and moonlight. A MutationObserver follows `html[data-theme]` for local-time and manual switching. The incoming image must decode before switching; request versions ignore stale loads, failures preserve the visible portrait, and opacity fades share `--theme-fade-duration` (3.2s). Prompts: `assets/blog/THEME-HOST-PROMPTS.md`.
 - Entry says `こんにちは！ / Konnichiwa!`; exit says `ありがとうございます！ / Arigatou gozaimasu!`. The user rejected the childlike delivery; the active greetings now use softer mature female synthesized speech, **VOICEVOX:冥鳴ひまり**, normal style (speaker 14). Local files: `assets/blog/adult-female-konnichiwa.mp3` (~0.90s) and `assets/blog/adult-female-arigatou-gozaimasu.mp3` (~1.40s). Both fit the 1.75-second farewell delay. Retain visible VOICEVOX credit and the terms in `assets/blog/CREDITS.md`. No runtime TTS dependency. Earlier recordings and artwork remain only as design history.
 - Following a portfolio navigation link or a Medium link dismisses the host once. Ordinary same-tab portfolio navigation waits 1.75 seconds for the farewell; article/new-tab links, downloads, and modifier keys retain native behavior. Scrolling does not dismiss the host. A Medium click suppresses reentry until a new visit/return; normal link behavior and modifier keys are preserved. Rapid returns cancel stale exit timers; new speech cancels previous speech. The voice toggle remembers its state in sessionStorage. A blocked playback changes the control to Enable voice. Reduced/paused motion removes sliding, independently of voice mute.
 - Browser autoplay can block sound on a first page visit; the visible greeting still works, and clicking Enable voice plays it. Actual visual/audio browser verification remains outstanding because the available automation tool cannot start with the installed Node runtime.
 
 ## 4. Morning, evening, and night themes
 
-The initial theme follows **Pakistan Standard Time**, using `Intl.DateTimeFormat` with `timeZone: 'Asia/Karachi'`. It must not depend on the visitor's local timezone.
+The initial theme follows **the visitor's local device time**, using `Date.getHours()`. `Intl.DateTimeFormat` displays the clock without a fixed timezone. This replaces the earlier PKT requirement; no geolocation permission or service is needed.
 
-| Theme | Automatic PKT schedule | General palette | AINKUN text and logo color |
+| Theme | Automatic local schedule | General palette | AINKUN text and logo color |
 | --- | --- | --- | --- |
 | Morning / 朝 | 05:00–16:59 | Cream and sage green | `#304e38` — deep green |
 | Evening / 夕暮れ | 17:00–19:59 | Warm parchment and terracotta | `#6b402e` — warm brown |
@@ -89,10 +89,10 @@ This is a fixed schedule, not an astronomical sunrise/sunset calculation.
 ### Theme controls and state
 
 - Morning, Evening, and Night buttons manually preview their respective themes.
-- `Use PKT time` restores automatic mode.
-- Manual selection lasts for the current page session. Reloading returns to the current PKT theme; no saved theme preference is stored.
+- `Use local time` restores automatic mode.
+- Manual selection lasts for the current page session. Reloading returns to the current local theme; no saved theme preference is stored.
 - Automatic mode checks the time every minute and when the tab becomes visible again.
-- The clock always shows Pakistan time, including during manual previews.
+- The clock always shows local device time, including during manual previews.
 - `themes.js` runs early in the document head to select the initial theme before first paint and preload that scene.
 - Without JavaScript, the morning theme is the fallback.
 
@@ -236,7 +236,7 @@ Generated artwork was created with the built-in imagegen tool. Final assets were
 | `tests/blog.test.cjs`, `tests/test_medium.py` | Blog interaction and RSS-parser checks |
 | `script.js` | Content rendering, link handling, notices, reveals, particles, portrait tilt, motion control, scroll spy, hero-name interaction |
 | `styles.css` | Layout, responsive rules, component styling, typography, hero-name animation |
-| `themes.js` | PKT schedule, early theme initialization, image loading/decoding, crossfade layers, manual/automatic state |
+| `themes.js` | Local-time schedule, early theme initialization, image loading/decoding, crossfade layers, manual/automatic state |
 | `themes.css` | Three palettes, scene references, logo masks/colors, theme-control styling; also shared preview palettes |
 | `theme-motion.css` | Registered palette colors, 3.2-second theme interpolation, fixed scene layers, background keyframes, motion-preference overrides |
 | `analyst-card.css` | Collectible card styling, modal layout, flip/zoom animations, and responsive/motion handling |
@@ -248,7 +248,7 @@ Generated artwork was created with the built-in imagegen tool. Final assets were
 | `.nojekyll` | GitHub Pages static-site support |
 | `assets/favicon.svg` | Existing favicon; separate from the cleaned main logo |
 
-Both pages load `styles.css`, `themes.css`, and `theme-motion.css`, with `themes.js` early in the head. The homepage then loads `analyst-card.css`, with deferred `profile.js`, `script.js`, and `analyst-card.js`. The blog instead loads `blog.css`, with deferred `profile.js` and `blog.js`; do not load homepage scripts there. Blog JS owns its motion toggle and footer year. Homepage chapter tracking filters local hash links so the separate Blog page link cannot break scrolling.
+Both pages load `styles.css`, `themes.css`, and `theme-motion.css`, with `themes.js` early in the head. The homepage then loads `analyst-card.css`, with deferred `profile.js`, `script.js`, and `analyst-card.js`. The blog instead loads `blog.css`, with deferred `profile.js` and `blog.js`; do not load homepage scripts there. Blog JS follows system motion preferences and owns its footer year. Homepage chapter tracking filters local hash links so the separate Blog page link cannot break scrolling.
 
 ## 9. Content still to personalize
 
@@ -256,12 +256,12 @@ Both pages load `styles.css`, `themes.css`, and `theme-motion.css`, with `themes
 
 - An editable cybersecurity introduction and about paragraph.
 - Six suggested skill labels: threat analysis, network security, security research, incident response, Linux, and Python. These are editable suggestions, not verified credentials.
-- Three project placeholders: Threat investigation, Security lab, Tools & automation.
-- Three achievement placeholders: certification, competition/CTF, research milestone.
+- Two real projects: deep learning side-channel recovery of AES-128 keys from IoT devices (university FYDP), and CyberSents CTF 2025 challenge creation. Solutions: https://github.com/ainkun/my-ctf-challenges. No FYDP URL supplied.
+- Owner-supplied achievements: team second place at Ignite Cyber Hackathon 2024; Black Hat MEA finalist in 2023, 2024, and 2025. No verification URLs supplied, so dates render as plain text.
 - Blog writing placeholders have been replaced with the real Medium feed.
 - Empty GitHub, LinkedIn, X, and email fields; Medium is configured.
 
-Use complete HTTP(S) URLs for social/project/article links and a plain email address in the email field. Confirm owner-supplied facts before turning placeholders into claims.
+Use complete HTTP(S) URLs for social/project/article links and a plain email address in the email field. Use owner-supplied facts; do not invent additional results, ratings, or verification URLs.
 
 ## 10. Run and host in any environment
 
@@ -283,7 +283,7 @@ Do not hardcode the original workstation path or rely on session-specific tool I
 
 ## 11. Verification status and limits
 
-The latest blog update passed **all 34 checks: 10 theme, 9 collectible-card, 11 blog, and 4 RSS-parser tests**, plus JavaScript syntax checks. Local HTTP checks returned 200 for the feed, character, audio, and new scripts/styles. Static Pages staging succeeded; remote deployment has not been performed. Commands:
+The earlier blog update passed **all 34 checks: 10 theme, 9 collectible-card, 11 blog, and 4 RSS-parser tests**, plus JavaScript syntax checks. Local HTTP checks returned 200 for the feed, character, audio, and new scripts/styles. Static Pages staging succeeded; remote deployment has not been performed. Commands:
 
 ```sh
 node tests/themes.test.cjs
@@ -298,7 +298,7 @@ node --check analyst-card.js
 
 The test file runs directly with Node's test API. In the previous restricted Windows environment, `node --test ...` encountered a child-process `EPERM`; direct execution worked. This is an environment detail, not a hosting dependency.
 
-Coverage includes PKT time boundaries, initial preload, rapid selection races, manual/automatic mode, load failure/retry, crossing a time boundary during loading, layer cleanup, reduced/paused motion, and waiting for image decoding.
+Coverage includes Local-time boundaries, initial preload, rapid selection races, manual/automatic mode, load failure/retry, crossing a time boundary during loading, layer cleanup, reduced/paused motion, and waiting for image decoding.
 
 Local HTTP asset checks, PNG transparency/dimensions, CSS variable references, and JavaScript syntax were also checked during development. Core text contrast was checked for the three final palettes earlier in the work.
 
@@ -308,14 +308,14 @@ During the passive-flip update, computer-use verification was also attempted but
 
 When a browser is available, verify:
 
-1. Initial PKT theme appears without an unwanted morning flash.
+1. Initial local-time theme appears without an unwanted morning flash.
 2. All three scene images visibly crossfade over 3.2 seconds with the colors.
 3. Rapid switching never flashes a stale image or removes the incoming layer.
 4. The fixed background remains visible behind the translucent contact section at the bottom.
 5. The logo matches the hero name color in all themes.
 6. `AINKUN.` stays still on load, transforms smoothly on interaction, and keeps a baseline period.
 7. Mobile header controls fit, navigation works, and the longer name does not overflow.
-8. Reduced-motion and pause controls behave correctly.
+8. System reduced-motion preferences behave correctly.
 9. The collectible card opens from the avatar, flips to the supplied artwork/details, fits or scrolls on small screens, contains keyboard focus, and restores the avatar on close.
 
 Older gallery captions may contain stale descriptions or encoding-damaged punctuation/Japanese labels. The README's damaged theme labels and outdated logo-selection notes were corrected when its setup instructions were expanded. The current source, README, and this summary establish that the cleaned reference logo is selected and installed.
@@ -332,3 +332,38 @@ Older gallery captions may contain stale descriptions or encoding-damaged punctu
 - Update this summary after substantive changes so future sessions have accurate context.
 
 A future session can be started with: **“Read SUMMARY.md in this project, inspect the current files, and continue with the following update: …”**
+
+### Current identity and interface details
+
+- Public identity: **ainkun**, **Security Researcher**. Keep the existing AINKUN / HUSSAIN K. hover animation, but do not display the full legal name.
+- Copy focuses on offensive security, reconnaissance, vulnerability research, and attack paths. The profile motto is **Recon / Research / Exploit**.
+- Both sidebars end with the **ainkun.** home wordmark. The bottom-left footer contains **Created by [PakCyberbot](https://pakcyberbot.com)**. The previous learning status and decorative-motion button have been removed; OS reduced-motion support remains.
+- The favicon uses the current transparent `assets/logo-clean/ainkun-clean.png` logo.
+- Explore my work uses white text for morning/evening and transitions to black over 3.2 seconds for night. Its Japanese label inherits the same color.
+- The card's upper-right diamond is drawn in CSS and geometrically centered inside its circle.
+
+The latest identity/local-time update passed 32 JavaScript checks (10 theme, 11 card, 11 blog). Theme checks also passed with America/Los_Angeles and Asia/Tokyo device timezones. Browser visual verification remains outstanding.
+
+### Creator-credit transition
+
+The complete **Created by PakCyberbot** text at the bottom-left of the footer is one padded link in the site's Space Mono font at regular weight, 11px on desktop and 9px on mobile. Ordinary activation of PakCyberbot plays a 2.4-second Japanese character-rain transition, fading toward the bottom, then navigates the current tab to `https://pakcyberbot.com`. The supplied `pakcyberbot.png` appears in the center with a gently pulsing logo and rotating loading ring. Both pages preload it, and the Pages build includes it. The blog farewell can play during this send-off. Ctrl/Cmd/Shift/Alt-click and middle-click retain native behavior; reduced motion follows the link immediately. Escape cancels the transition. Page lifecycle cleanup prevents a stale overlay after Back navigation.
+
+Shared implementation: `credit-transition.js` and `credit-transition.css`, loaded after the page scripts on both pages and automatically included in the Pages build. `node tests/credit-transition.test.cjs` checks navigation timing, repeat clicks, native link behavior, reduced motion, cancellation, and cleanup (four passing tests). Actual browser appearance still needs visual verification.
+
+### Native-zoom layout and researcher content
+
+`responsive.css` loads last on both pages. Desktop navigation uses a 184px rail with compact spacing; the opening hero fills at least one complete viewport (100dvh on desktop, minus the 124px reserved mobile header), with smaller fluid heading/card sizes. There is no maximum-height cap: the archive bar stays below the initial fold at every zoom level. Enlarged content may grow taller to remain accessible. Text remains readable without changing the browser zoom or applying a page-wide transform. Mobile keeps its stacked layout without the previous 950px forced hero minimum. Desktop projects use two columns, stacking on narrower screens.
+
+The About biography introduces Hussain / ainkun as a Security Researcher and experienced CTF participant, covering reverse engineering, malware, mobile security, red teaming, and vulnerability research. The card techniques are **Reverse Engineering** (including malware reversing) and **Mobile Security**. `analystCard.stats` and `skills` contain **Cryptography, Reversing, Programming, Malware Dev, Android Security, AI Automation**; these are labels without invented numerical scores. Optional `traits` remain supported but are omitted from the current card to keep it compact.
+
+Latest validation: all 11 card interaction tests and 4 creator-transition tests pass. Local browser inventory is empty and the in-app browser is unavailable, so native-zoom rendering still requires visual review on the user's display.
+
+The homepage archive bar (`#chapters`) fades and rises into view over one second using the existing reveal observer as the visitor scrolls. **Scroll to explore** smoothly targets this bar before the About section. Scrolling within the content and touch scrolling remain native; the opening wheel boundary uses the panel transition below. Keyboard focus reveals the bar, and system reduced-motion preferences skip the animation.
+
+### Opening chapter panel transition
+
+On the homepage, `chapter-transition.js` turns the opening/content boundary into a 620ms eased transition. A downward mouse-wheel gesture from Chapter 1 lands exactly at the archive bar (below the fixed mobile header). Upward scrolling that reaches this boundary returns to the beginning; scrolling farther down the content is normal. A short 180ms cooldown absorbs trailing wheel momentum. The scroll cue and Arrow/Page/Space keyboard scrolling support the same boundary behavior, with keyboard focus moved to the destination.
+
+Ctrl/Cmd-wheel zoom, horizontal gestures, sidebar scrolling, form controls, card dialogs, and the creator overlay are excluded. Reduced motion jumps immediately. If enlarged text makes the opening chapter taller than the available screen, its internal document range remains scrollable before transitioning out. Resizing settles an active transition; page lifecycle events clear stale frames. Touch and scrollbar navigation remain native. Five DOM-model behavior checks pass with `node tests/chapter-transition.test.cjs`; live browser visual review remains unavailable in this environment.
+
+The sidebar and footer wordmarks have been swapped on both pages: **ainkun.** in the sidebar links home; the footer creator credit retains its regular Space Mono styling and Japanese rain/logo transition to PakCyberbot.

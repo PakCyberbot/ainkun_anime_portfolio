@@ -1,0 +1,87 @@
+/* Compact desktop composition at native browser zoom; retain readable body text. */
+@media(min-width:761px) {
+  :root { --rail:184px; }
+  .sidebar { padding:20px 12px 16px;overflow-y:auto; }
+  .sidebar-logo { width:108px; }
+  .sidebar-caption { padding:14px 8px; }
+  .sidebar-caption>span { font-size:10px; }
+  .nav-item { padding:9px 8px;gap:9px; }
+  .nav-item strong { font-size:15px; }
+  .nav-item small { font-size:9px; }
+  .nav-icon { width:22px;font-size:22px; }
+  .nav-index { display:none; }
+  .hero {
+    min-height:100vh;
+    min-height:100dvh;
+    padding:82px clamp(28px,3.4vw,54px) 22px;
+  }
+  .hero-layout {
+    grid-template-columns:minmax(0,1fr) clamp(170px,26vh,240px);
+    gap:clamp(20px,3vw,48px);padding:24px 0;
+  }
+  .hero h1 { font-size:clamp(80px,8vw,128px);margin-bottom:16px; }
+  .hero-kicker { margin-bottom:10px; }
+  .hero .name-jp { font-size:19px;letter-spacing:7px; }
+  .hero .intro { margin:12px 0; }
+  .hero-description { max-width:460px;font-size:14px;line-height:1.75; }
+  .hero-actions { margin-top:20px; }
+  .profile-stage { margin-top:0; }
+  .profile-motto { margin-top:16px;padding:8px; }
+  .hero-bottom { padding-top:14px; }
+  .chapter-menu { padding:16px clamp(24px,3vw,48px); }
+  .chapter-menu>a { padding:13px 12px;gap:10px; }
+  .chapter-menu strong { font-size:17px; }
+  .tile-icon { font-size:25px; }
+  .section { padding:60px 0;margin-inline:clamp(28px,4vw,64px); }
+  .about { gap:32px; }
+  .section h2 { font-size:clamp(36px,3.4vw,49px); }
+  .projects-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .project-card h3 { font-size:20px; }
+}
+@media(min-width:761px) and (max-width:1000px) {
+  .hero { padding-inline:26px; }
+  .hero-layout { grid-template-columns:minmax(0,1fr) 165px;gap:18px; }
+  .hero h1 { font-size:78px; }
+  .hero .button { gap:8px;padding:10px 12px; }
+  .chapter-menu strong { font-size:14px; }
+  .projects-grid { grid-template-columns:1fr; }
+}
+@media(max-width:640px) {
+  .hero-layout { padding-block:32px; }
+  .achievement { flex-wrap:wrap; }
+  .achievement-content { min-width:170px; }
+  .achievement-year { margin-left:auto; }
+}
+
+/* The opening chapter occupies the entire first screen at every zoom level.
+   On mobile, the fixed navigation already reserves 124px above main content.
+   A minimum rather than fixed height keeps enlarged text fully accessible. */
+@media(max-width:760px) {
+  .hero { min-height:calc(100vh - 124px);min-height:calc(100dvh - 124px); }
+}
+.chapter-menu.reveal-ready {
+  transition:opacity 1s ease,transform 1s cubic-bezier(.16,1,.3,1);
+}
+.chapter-menu.reveal-ready:focus-within { opacity:1;transform:none; }
+
+/* Sidebar home wordmark and the full clickable footer credit. */
+.sidebar-bottom { padding:14px 0 0; }
+.sidebar-bottom .brand { display:flex;justify-content:center;width:100%;gap:0;padding:9px 6px;font:800 23px/1.1 'DM Sans',sans-serif;letter-spacing:-1.6px;text-decoration:none;color:var(--ink); }
+.creator-credit { display:inline-block;padding:9px 0;font:400 11px/1.5 var(--mono);letter-spacing:0;color:var(--accent);text-decoration:none;white-space:nowrap; }
+.creator-credit:hover { text-decoration:underline;text-underline-offset:4px; }
+@media(max-width:760px) {
+  .sidebar-bottom { top:54px;padding:0; }
+  .sidebar-bottom .brand { padding:0;justify-content:flex-start;font-size:14px;letter-spacing:-.6px; }
+  .creator-credit { font-size:9px; }
+}
+
+/* Stats stay editable and carry no invented numerical proficiency ratings. */
+.collectible-stats { margin-top:6px;padding-top:7px;border-top:1px solid var(--line); }
+.collectible-card .collectible-stats h3 { font:700 8px/1.4 var(--mono);letter-spacing:1px;color:var(--accent); }
+.collectible-stat-list { list-style:none;margin:5px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px; }
+.collectible-stat-list li { padding:4px 3px;border:1px solid var(--line);border-radius:3px;background:var(--surface-tint);font:8px/1.4 var(--mono);text-align:center;overflow-wrap:anywhere; }
+.collectible-body { padding-top:7px; }
+.collectible-ability { padding-bottom:6px;margin-bottom:3px; }
+.collectible-technique { padding-block:4px; }
+.collectible-traits { margin-top:6px;padding-block:5px; }
+.collectible-motto { margin-block:6px 4px; }

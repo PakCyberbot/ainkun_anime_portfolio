@@ -1,17 +1,17 @@
 // Edit this file to personalize the portfolio. Empty URLs show a clear placeholder.
 window.PORTFOLIO = {
-  name: "Muhammad Hussain Kas",
-  description: "Exploring the attack surface. Understanding the threat. Building a safer digital world — one discovery at a time.",
-  about: "I'm Muhammad Hussain Kas, known online as ainkun. As a cybersecurity analyst, I'm drawn to understanding how systems work, where they can break, and how to defend them. Curiosity drives the investigation; a defender's mindset gives it purpose.",
+  name: "ainkun",
+  description: "Reverse engineering, mobile security, and offensive research. From CTF challenges to real-world attack surfaces — always curious about what lies underneath.",
+  about: "I'm Hussain, known as ainkun — a Security Researcher and an active CTF player. Competing in many CTFs has shaped how I approach unfamiliar systems: break a problem down, follow the evidence, and keep experimenting. My interests span reverse engineering, malware analysis and development, mobile security, red teaming, and vulnerability research. I work across cryptography, reversing, programming, Android security, and AI automation, bringing a hands-on, offensive perspective to the questions I explore.",
   // Adjust these areas to reflect your actual skills.
-  skills: ["Threat analysis", "Network security", "Security research", "Incident response", "Linux", "Python"],
+  skills: ["Cryptography", "Reversing", "Programming", "Malware Dev", "Android Security", "AI Automation"],
   // The collectible card opened by clicking the hero avatar. All text is editable.
   analystCard: {
     name: "ainkun",
     japaneseName: "アインくん",
-    stage: "ANALYST",
-    role: "Cybersecurity Analyst",
-    type: "INQUIRY TYPE",
+    stage: "RESEARCHER",
+    role: "Security Researcher",
+    type: "RECON TYPE",
     number: "001",
     statLabel: "CURIOSITY",
     statValue: "∞", // Decorative card flavor, not a skill rating or certification.
@@ -22,31 +22,25 @@ window.PORTFOLIO = {
     portraitImageAlt: "The supplied corner portrait for ainkun's card",
     imagePosition: "center 43%",
     ability: {
-      title: "A defender's instinct",
-      description: "Look beneath the surface. Ask better questions. Keep learning."
+      title: "An offensive mindset",
+      description: "Map the surface. Question the assumptions. Trace the attack path."
     },
     techniques: [
-      { symbol: "◎", title: "Threat analysis", description: "Follow the clues. Understand the threat.", tag: "INVESTIGATE" },
-      { symbol: "◇", title: "Security research", description: "Explore how systems work and how to defend them.", tag: "EXPLORE" }
+      { symbol: "◎", title: "Reverse Engineering", description: "Binary analysis and malware reversing.", tag: "REVERSE" },
+      { symbol: "◇", title: "Mobile Security", description: "Explore Android internals and mobile attack surfaces.", tag: "MOBILE" }
     ],
-    traits: [
-      { label: "MINDSET", value: "Stay curious" },
-      { label: "TOOLS", value: "Linux · Python" },
-      { label: "GROWTH", value: "Every day" }
-    ],
-    motto: "A curious mind. A defender's instinct.",
+    stats: ["Cryptography", "Reversing", "Programming", "Malware Dev", "Android Security", "AI Automation"],
+    motto: "A curious mind. An offensive mindset.",
     edition: "PERSONAL COLLECTION / 01"
   },
   blog: { feed: "data/medium.json", maxPosts: 10 },
-  socials: { github: "", medium: "https://ainkun.medium.com", linkedin: "", x: "", email: "" }, // email: plain email address
+  socials: { github: "https://github.com/ainkun", medium: "https://ainkun.medium.com/", linkedin: "https://www.linkedin.com/in/ainkun/", x: "https://x.com/ain__kun", email: "contact@ainkun.com" }, // email: plain email address
   projects: [
-    { title: "Threat investigation", category: "01 / ANALYSIS", description: "Add an investigation: the problem, your approach, tools used, and what you discovered.", tags: ["Threat analysis", "Investigation"], url: "", icon: "◎" },
-    { title: "Security lab", category: "02 / HANDS-ON", description: "Showcase a home lab or security experiment. Add screenshots, methods, and lessons learned.", tags: ["Lab", "Detection"], url: "", icon: "⌘" },
-    { title: "Tools & automation", category: "03 / BUILD", description: "Feature a script or tool you created. Explain what it solves and link to your repository.", tags: ["Python", "Automation"], url: "", icon: "⟨/⟩" }
+    { title: "Deep Learning Side-Channel Attack on AES-128 in IoT Devices", category: "01 / UNIVERSITY FYDP", description: "Final-year project recovering AES-128 encryption keys from IoT hardware by training deep learning models on power side-channel traces. Applied cryptography meets hardware attack research.", tags: ["AES-128", "IoT Hardware", "Deep Learning", "Side Channels"], url: "", icon: "◎" },
+    { title: "CyberSents CTF 2025 Challenges", category: "02 / CTF CHALLENGE AUTHOR", description: "Created challenges for CyberSents CTF 2025. Explore the challenge collection and solutions on GitHub.", tags: ["CTF", "Challenge Design", "2025"], url: "https://github.com/ainkun/my-ctf-challenges", linkLabel: "View challenges and solutions", icon: "⌘" }
   ],
   achievements: [
-    { title: "Your certification", description: "Add the certification name, issuer, and verification link.", year: "YEAR", type: "CERTIFICATION", url: "" },
-    { title: "Your competition or CTF", description: "Add an event, your result, and a short description of the challenge.", year: "YEAR", type: "COMPETITION", url: "" },
-    { title: "Your research milestone", description: "Add a published finding, recognition, or learning milestone.", year: "YEAR", type: "RESEARCH", url: "" }
+    { title: "Ignite Cyber Hackathon — 2nd Place", description: "Our team secured second place at the Ignite 2024 Cyber Hackathon.", year: "2024", type: "TEAM ACHIEVEMENT", url: "" },
+    { title: "Black Hat MEA — Finalist", description: "Reached the Black Hat MEA finals in three consecutive years: 2023, 2024, and 2025.", year: "2023–2025", type: "CTF FINALIST", url: "" }
   ]
 };

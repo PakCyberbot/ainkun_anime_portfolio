@@ -175,9 +175,7 @@
   .theme-options button { min-height:29px;padding:3px 4px;font-size:10px; }
   .theme-options svg { width:15px;height:15px; }
   .theme-meta { font-size:8px;padding-top:1px; }
-  .sidebar-bottom { left:98px;right:auto;top:25px;font-size:0;gap:0; }
-  .sidebar-bottom .status-dot { display:none; }
-  .sidebar-bottom .motion-toggle { margin:0;font-size:12px; }
+  .sidebar-bottom { left:18px;right:auto;top:59px;font-size:8px;line-height:1.2;gap:4px; }
 }
 @media(max-width:420px) {
   .theme-controls { right:10px;width:184px; }
@@ -185,6 +183,6 @@
   .theme-options svg { width:12px;height:12px; }
   .theme-meta { padding-left:2px;padding-right:2px;font-size:7px; }
   .sidebar { padding-left:12px;padding-right:12px; }
-  .sidebar-bottom { left:88px; }
+  .sidebar-bottom { left:12px; }
 }
 @media(prefers-reduced-motion:reduce) { .theme-options button { transition:none; } }

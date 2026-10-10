@@ -2,15 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Muhammad Hussain Kas, aka ainkun — cybersecurity analyst. Security research, projects, and field notes from a curious mind.">
-  <meta name="theme-color" content="#f7f5eb"><title>ainkun — Cybersecurity Analyst</title>
+  <meta name="description" content="ainkun — Security Researcher. Security research, projects, and field notes from a curious mind.">
+  <meta name="theme-color" content="#f7f5eb"><title>ainkun — Security Researcher</title>
   <script src="themes.js"></script>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/logo-clean/ainkun-clean.png?v=2" type="image/png"><link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="themes.css">
   <link rel="stylesheet" href="theme-motion.css">
   <link rel="stylesheet" href="analyst-card.css">
   <script src="profile.js" defer></script><script src="script.js" defer></script>
   <script src="analyst-card.js" defer></script>
+  <script src="chapter-transition.js" defer></script>
+  <link rel="stylesheet" href="credit-transition.css">
+  <script src="credit-transition.js" defer></script>
+  <link rel="stylesheet" href="responsive.css">
+  <link rel="preload" as="image" href="pakcyberbot.png">
 </head>
 <body>
   <div class="scene-stack" aria-hidden="true"></div>
@@ -27,7 +32,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z"/><path d="M18 3v4m-2-2h4"/></svg><span>Night</span>
       </button>
     </div>
-    <div class="theme-meta"><button class="theme-auto" type="button" aria-pressed="true">Auto · PKT</button><span class="theme-clock"></span></div>
+    <div class="theme-meta"><button class="theme-auto" type="button" aria-pressed="true">Auto · Local</button><span class="theme-clock"></span></div>
   </aside>
   <span class="sr-only" id="theme-status" role="status" aria-live="polite"></span>
   <header class="sidebar">
@@ -41,38 +46,38 @@
       <a class="nav-item" href="blog.html"><span class="nav-icon" aria-hidden="true">▤</span><span><small lang="ja">ブログ</small><strong>BLOG</strong></span><span class="nav-index">04</span></a>
       <a class="nav-item" href="#contact"><span class="nav-icon" aria-hidden="true">↗</span><span><small lang="ja">つながる</small><strong>CONNECT</strong></span><span class="nav-index">05</span></a>
     </nav>
-    <div class="sidebar-bottom"><span class="status-dot"></span> ALWAYS LEARNING <button class="motion-toggle" type="button" aria-pressed="false" aria-label="Pause decorative animations">Ⅱ</button></div>
+    <div class="sidebar-bottom"><a class="brand" href="#home">ainkun<span class="brand-dot">.</span></a></div>
   </header>
   <main id="main">
     <section class="hero" id="home" aria-labelledby="hero-title">
       <div class="city-scene" aria-hidden="true"></div><div class="scene-shade" aria-hidden="true"></div><div class="scene-grid" aria-hidden="true"></div><div class="particles" aria-hidden="true"></div>
       <div class="hero-topline"><span>PERSONAL PORTFOLIO <b>／</b> CYBERSECURITY</span><span lang="ja">好奇心を、力に。</span></div>
       <div class="hero-layout">
-        <div class="hero-copy"><p class="hero-kicker"><span class="diamond" aria-hidden="true">◇</span> A MIND THAT NEVER STOPS EXPLORING</p><div class="name-lockup"><span class="name-jp" lang="ja">アインくん</span><h1 id="hero-title" aria-label="ainkun, Hussain K."><button class="name-switch" type="button" aria-label="Show alternate name: Hussain K." aria-pressed="false" disabled><span class="name-track" aria-hidden="true"><span class="name-glyph name-prefix">HUSS</span><span class="name-glyph name-core">AIN</span><span class="name-glyph name-k">K</span><span class="name-glyph name-suffix">UN</span><span class="name-glyph name-dot">.</span></span></button></h1></div><p class="intro">Muhammad Hussain Kas<span>CYBERSECURITY ANALYST</span></p><p class="hero-description" id="hero-description"></p><div class="hero-actions"><a class="button primary" href="#projects"><span lang="ja">探索</span> Explore my work <span>↗</span></a><a class="button secondary" href="#about">Meet ainkun <span>→</span></a></div></div>
-        <div class="profile-stage"><figure class="profile-panel"><div class="profile-card-top"><span lang="ja">プロフィール</span><span>PROFILE / 01</span></div><div class="profile-image-wrap"><img class="profile-image" src="mainimage.png" alt="ainkun's profile avatar" width="500" height="500" fetchpriority="high"></div><figcaption><strong>ainkun<span>✦</span></strong><span>CURIOUS MIND. DEFENDER'S INSTINCT.</span></figcaption></figure><p class="profile-motto"><span lang="ja">探究 · 防御 · 成長</span>INQUIRY · DEFENSE · GROWTH</p></div>
+        <div class="hero-copy"><p class="hero-kicker"><span class="diamond" aria-hidden="true">◇</span> A MIND THAT NEVER STOPS EXPLORING</p><div class="name-lockup"><span class="name-jp" lang="ja">アインくん</span><h1 id="hero-title" aria-label="ainkun, Hussain K."><button class="name-switch" type="button" aria-label="Show alternate name: Hussain K." aria-pressed="false" disabled><span class="name-track" aria-hidden="true"><span class="name-glyph name-prefix">HUSS</span><span class="name-glyph name-core">AIN</span><span class="name-glyph name-k">K</span><span class="name-glyph name-suffix">UN</span><span class="name-glyph name-dot">.</span></span></button></h1></div><p class="intro"><span>SECURITY RESEARCHER</span></p><p class="hero-description" id="hero-description"></p><div class="hero-actions"><a class="button primary" href="#projects"><span lang="ja">探索</span> Explore my work <span>↗</span></a><a class="button secondary" href="#about">Meet ainkun <span>→</span></a></div></div>
+        <div class="profile-stage"><figure class="profile-panel"><div class="profile-card-top"><span lang="ja">プロフィール</span><span>PROFILE / 01</span></div><div class="profile-image-wrap"><img class="profile-image" src="mainimage.png" alt="ainkun's profile avatar" width="500" height="500" fetchpriority="high"></div><figcaption><strong>ainkun<span>✦</span></strong><span>CURIOUS MIND. OFFENSIVE INSTINCT.</span></figcaption></figure><p class="profile-motto"><span lang="ja">偵察 · 研究 · 攻略</span>RECON · RESEARCH · EXPLOIT</p></div>
       </div>
-      <div class="hero-bottom"><span class="chapter-label"><span lang="ja">第一章</span> CHAPTER 01 — THE BEGINNING</span><a class="scroll-cue" href="#about">SCROLL TO EXPLORE <span>↓</span></a></div>
+      <div class="hero-bottom"><span class="chapter-label"><span lang="ja">第一章</span> CHAPTER 01 — THE BEGINNING</span><a class="scroll-cue" href="#chapters">SCROLL TO EXPLORE <span>↓</span></a></div>
     </section>
-    <div class="chapter-menu" aria-label="Explore the portfolio"><a href="#projects"><span class="tile-icon" aria-hidden="true">⌘</span><span><small lang="ja">プロジェクト</small><strong>THE MISSION ARCHIVE</strong><em>Investigations, experiments & builds</em></span><b>↗</b></a><a href="#achievements"><span class="tile-icon" aria-hidden="true">✧</span><span><small lang="ja">成長の記録</small><strong>THE JOURNEY SO FAR</strong><em>Milestones & achievements</em></span><b>↗</b></a><a href="blog.html"><span class="tile-icon" aria-hidden="true">▤</span><span><small lang="ja">研究ノート</small><strong>NOTES FROM THE FIELD</strong><em>Learn something. Share something.</em></span><b>↗</b></a></div>
+    <div class="chapter-menu reveal" id="chapters" aria-label="Explore the portfolio"><a href="#projects"><span class="tile-icon" aria-hidden="true">⌘</span><span><small lang="ja">プロジェクト</small><strong>THE MISSION ARCHIVE</strong><em>Investigations, experiments & builds</em></span><b>↗</b></a><a href="#achievements"><span class="tile-icon" aria-hidden="true">✧</span><span><small lang="ja">成長の記録</small><strong>THE JOURNEY SO FAR</strong><em>Milestones & achievements</em></span><b>↗</b></a><a href="blog.html"><span class="tile-icon" aria-hidden="true">▤</span><span><small lang="ja">研究ノート</small><strong>NOTES FROM THE FIELD</strong><em>Learn something. Share something.</em></span><b>↗</b></a></div>
     <div class="content-shell">
-      <section class="section about" id="about"><div class="section-heading reveal"><span class="eyebrow">01 / ABOUT ME</span><div class="section-jp" lang="ja">自己紹介</div><h2>A curious mind.<br>A defender's <em>instinct.</em></h2><div class="word-note"><span lang="ja">探究</span><div><strong>TANKYŪ / INQUIRY</strong><p>The drive to understand what lies beneath.</p></div></div></div><div class="about-content reveal"><p id="about-copy"></p><p class="muted">This is my corner of the internet: a place for the things I build, the lessons I learn, and the questions I keep chasing.</p><div class="terminal"><div class="terminal-bar"><span>● ● ●</span> ainkun@portfolio: ~</div><p><span>❯</span> whoami</p><p id="terminal-name"></p><p><span>❯</span> cat mindset.txt</p><p class="terminal-answer">Stay curious. Think critically. Keep learning.<span class="cursor">▌</span></p></div><div class="skills" id="skills"></div></div></section>
+      <section class="section about" id="about"><div class="section-heading reveal"><span class="eyebrow">01 / ABOUT ME</span><div class="section-jp" lang="ja">自己紹介</div><h2>A curious mind.<br>An offensive <em>mindset.</em></h2><div class="word-note"><span lang="ja">探索</span><div><strong>TANSAKU / EXPLORATION</strong><p>Map the surface. Challenge assumptions. Find the gaps.</p></div></div></div><div class="about-content reveal"><p id="about-copy"></p><p class="muted">This is my corner of the internet: a place for the things I build, the lessons I learn, and the questions I keep chasing.</p><div class="terminal"><div class="terminal-bar"><span>● ● ●</span> ainkun@portfolio: ~</div><p><span>❯</span> whoami</p><p id="terminal-name"></p><p><span>❯</span> cat mindset.txt</p><p class="terminal-answer">Stay curious. Think critically. Keep learning.<span class="cursor">▌</span></p></div><div class="skills" id="skills"></div></div></section>
       <section class="section" id="projects"><div class="section-top reveal"><div><span class="eyebrow">02 / MISSION ARCHIVE</span><div class="section-jp" lang="ja">プロジェクト</div><h2>Curiosity, put <em>to work.</em></h2></div><p class="section-note">A space for investigations,<br>experiments, and things built.</p></div><div class="projects-grid" id="projects-grid"></div></section>
       <section class="section" id="achievements"><div class="section-top reveal"><div><span class="eyebrow">03 / THE JOURNEY</span><div class="section-jp" lang="ja">実績</div><h2>One step <em>further.</em></h2></div><p class="section-note"><span lang="ja">日々成長</span><br>Growing every day.</p></div><div id="achievement-list" class="achievement-list"></div></section>
     </div>
     <section class="contact section" id="contact"><div class="contact-inner reveal"><span class="eyebrow">05 / OPEN A CHANNEL</span><div class="section-jp" lang="ja">つながる</div><h2>Every connection.<br>A new <em>possibility.</em></h2><p>Have a security question, an interesting project,<br>or a shared love for anime? Let's connect.</p><div class="socials" id="socials"></div><p class="contact-placeholder" id="contact-note"></p></div></section>
-    <footer><a class="brand" href="#home">ainkun<span class="brand-dot">.</span></a><span>© <span id="year"></span> Muhammad Hussain Kas</span><a href="#home"><span lang="ja">またね</span> / SEE YOU AGAIN ↑</a></footer>
+    <footer><a class="creator-credit" href="https://pakcyberbot.com" data-creator-link>Created by PakCyberbot</a><span>© <span id="year"></span> ainkun</span><a href="#home"><span lang="ja">またね</span> / SEE YOU AGAIN ↑</a></footer>
   </main>
   <div class="toast" role="status" aria-live="polite"></div>
   <dialog class="card-dialog" id="analyst-card-dialog" aria-labelledby="analyst-card-name" aria-describedby="analyst-card-help">
     <div class="card-modal-shell">
-      <button class="card-dismiss" type="button" aria-label="Close analyst card" autofocus>×</button>
+      <button class="card-dismiss" type="button" aria-label="Close researcher card" autofocus>×</button>
       <div class="card-flight">
         <div class="card-flipper">
           <div class="card-face card-front" aria-hidden="true" inert></div>
           <article class="card-face collectible-card" id="analyst-card-content"></article>
         </div>
       </div>
-      <p class="card-dialog-help" id="analyst-card-help">Your analyst card. <span>Press Esc or click outside to return.</span></p>
+      <p class="card-dialog-help" id="analyst-card-help">Your researcher card. <span>Press Esc or click outside to return.</span></p>
     </div>
   </dialog>
 </body>

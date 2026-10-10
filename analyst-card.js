@@ -29,7 +29,7 @@
   identity.append(element('span', 'collectible-stage', config.stage), name);
   const stat = element('div', 'collectible-stat');
   stat.append(element('span', '', config.statLabel), element('strong', '', config.statValue));
-  const energy = element('span', 'collectible-energy', '◈');
+  const energy = element('span', 'collectible-energy');
   energy.setAttribute('aria-hidden', 'true');
   header.append(portrait, identity, stat, energy);
 
@@ -81,20 +81,29 @@
     techniques.append(row);
   });
   body.append(techniques);
+  if (config.stats?.length) {
+    const stats = element('section', 'collectible-stats');
+    stats.append(element('h3', '', 'STATS'));
+    const list = element('ul', 'collectible-stat-list');
+    config.stats.forEach(label => list.append(element('li', '', label)));
+    stats.append(list);
+    body.append(stats);
+  }
   const traits = element('dl', 'collectible-traits');
   (config.traits || []).forEach(item => {
     const trait = element('div', 'collectible-trait');
     trait.append(element('dt', '', item.label), element('dd', '', item.value));
     traits.append(trait);
   });
-  body.append(traits, element('p', 'collectible-motto', config.motto));
+  if (config.traits?.length) body.append(traits);
+  body.append(element('p', 'collectible-motto', config.motto));
   const footer = element('footer', 'collectible-footer');
   footer.append(element('span', '', config.edition), element('span', '', `${config.number} / a刀 ✦`));
   card.append(header, artwork, body, footer);
 
   const trigger = element('button', 'profile-card-open');
   trigger.type = 'button';
-  trigger.setAttribute('aria-label', `Open ${config.name}'s analyst card`);
+  trigger.setAttribute('aria-label', `Open ${config.name}'s researcher card`);
   trigger.setAttribute('aria-haspopup', 'dialog');
   trigger.setAttribute('aria-controls', dialog.id);
   trigger.setAttribute('aria-expanded', 'false');

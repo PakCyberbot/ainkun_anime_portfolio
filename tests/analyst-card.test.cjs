@@ -14,6 +14,8 @@ function harness({ reduced = false, paused = false, sourceWidth = 250, sourceHei
       this.dataset = {};
       this.attributes = {};
       this.events = {};
+      this.paused = true;
+      this.playCalls = 0;
       this.style = { setProperty(key, value) { this[key] = value; } };
       this.classList = {
         contains: name => this.className.split(' ').includes(name),
@@ -49,10 +51,13 @@ function harness({ reduced = false, paused = false, sourceWidth = 250, sourceHei
     cloneNode(deep) {
       const copy = new Element(this.tagName, this.className);
       copy.id = this.id;
+      copy.attributes = { ...this.attributes };
       if (deep) this.children.forEach(child => copy.append(child.cloneNode(true)));
       return copy;
     }
     focus() { document.activeElement = this; }
+    play() { this.paused = false; this.playCalls++; return Promise.resolve(); }
+    pause() { this.paused = true; }
     scrollIntoView(options) { this.scrollOptions = options; }
     getBoundingClientRect() { return this.rect || { left: 0, top: 0, width: 100, height: 100 }; }
   }
@@ -138,6 +143,45 @@ test('opens one modal, flies from the avatar, and keeps the page locked', () => 
   assert.notEqual(h.flight.style['--card-origin-x'], '0px');
   h.finish('card-fly-in');
   assert.equal(h.dialog.dataset.state, 'open');
+});
+
+test('card video loops silently inline, transfers from hint to popup, and pauses on close', () => {
+  const h = harness();
+  const video = h.dialog.querySelector('video');
+  const hintVideo = h.hint.querySelector('video');
+  assert.equal(video.src, 'card-back-main-clip.mp4');
+  assert.equal(video.poster, 'card-main-image.jpeg');
+  for (const media of [video, hintVideo]) {
+    for (const attr of ['muted', 'loop', 'playsinline']) assert.equal(media.attributes[attr], '');
+    assert.equal(media.paused, true);
+  }
+  h.advance(10000);
+  assert.equal(hintVideo.paused, false);
+  assert.equal(hintVideo.muted, true);
+  assert.equal(hintVideo.volume, 0);
+  assert.equal(video.paused, true);
+  h.trigger.emit('click');
+  assert.equal(hintVideo.paused, true);
+  assert.equal(video.paused, false);
+  assert.equal(video.muted, true);
+  assert.equal(video.volume, 0);
+  h.finish('card-fly-in'); h.dismiss.emit('click'); h.finish('card-fly-out');
+  assert.equal(video.paused, true);
+});
+
+test('popup video respects visibility and motion preferences and falls back on media failure', () => {
+  for (const method of ['setPaused', 'setReduced', 'setHidden']) {
+    const h = harness(); h.trigger.emit('click'); h.finish('card-fly-in');
+    const video = h.dialog.querySelector('video');
+    h[method](true); assert.equal(video.paused, true);
+    h[method](false); assert.equal(video.paused, false);
+    video.emit('error');
+    assert.equal(video.hidden, true);
+    assert.equal(video.paused, true);
+    assert.ok(h.dialog.querySelector('.collectible-artwork').querySelector('img'));
+    h[method](true); h[method](false);
+    assert.equal(video.paused, true);
+  }
 });
 
 test('Escape during opening reverses the current pose and restores focus', () => {

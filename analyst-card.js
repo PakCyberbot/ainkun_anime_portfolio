@@ -42,6 +42,25 @@
   japanese.lang = 'ja';
   caption.append(element('span', '', config.role), japanese);
   artwork.append(mainImage, ribbon, caption);
+  if (config.mainVideo) {
+    const video = element('video', 'collectible-main-image collectible-main-video');
+    video.src = config.mainVideo;
+    video.poster = config.mainImage;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.setAttribute('muted', '');
+    video.setAttribute('loop', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('aria-hidden', 'true');
+    video.disablePictureInPicture = true;
+    video.style.objectPosition = config.imagePosition || 'center';
+    // Keep the image underneath as a fallback and overlays above the video.
+    artwork.replaceChildren(mainImage, video, ribbon, caption);
+  }
 
   const body = element('div', 'collectible-body');
   if (config.ability) {
@@ -114,10 +133,29 @@
   let hintEndTimer;
   let inView = !('IntersectionObserver' in window);
 
+  function syncCardMedia() {
+    for (const [face, visible] of [[card, dialog.open && state !== 'closed'], [hintBack, !hint.hidden]]) {
+      face.querySelectorAll('video').forEach(video => {
+        // cloneNode does not reliably preserve the live muted property.
+        video.muted = true;
+        video.volume = 0;
+        if (visible && !video.hidden && motionAllowed() && !document.hidden) {
+          if (video.paused) {
+            try { Promise.resolve(video.play()).catch(() => {}); } catch {}
+          }
+        } else video.pause();
+      });
+    }
+  }
+  [card, hintBack].forEach(face => face.querySelectorAll('video').forEach(video => {
+    video.addEventListener('error', () => { video.hidden = true; video.pause(); });
+  }));
+
   function stopHint() {
     clearTimeout(hintEndTimer);
     hint.hidden = true;
     source.classList.remove('card-hint-active');
+    syncCardMedia();
   }
   function hintAllowed() {
     return state === 'closed' && motionAllowed() && !document.hidden && inView;
@@ -145,6 +183,7 @@
     hint.style.setProperty('--hint-detail-height', `${height * 420 / width}px`);
     hint.style.setProperty('--hint-detail-scale', String(width / 420));
     hint.hidden = false;
+    syncCardMedia();
     source.classList.add('card-hint-active');
     hintEndTimer = setTimeout(stopHint, 3100);
     scheduleHint(); // Ten seconds between starts, with no catch-up bursts.
@@ -167,6 +206,7 @@
   function setState(next) {
     state = next;
     dialog.dataset.state = next;
+    syncCardMedia();
   }
   function origin() {
     // The main-page card keeps its natural responsive layout. Fit the popup

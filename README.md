@@ -25,13 +25,14 @@ Change the `analystCard` object in [profile.js](profile.js). The card is built i
 | `name`, `japaneseName`, `stage`, `role`, `type`, `number` | Identity, classification, and card number |
 | `statLabel`, `statValue` | Decorative header stat; currently curiosity/infinity, not a skill rating |
 | `mainImage`, `mainImageAlt`, `imagePosition` | Central artwork, description, and crop position |
+| `mainVideo` | Optional silent looping video; `mainImage` remains its poster and fallback |
 | `portraitImage`, `portraitImageAlt` | Small top-left portrait |
 | `ability.title`, `ability.description` | Featured ability heading and copy |
 | `techniques` | Editable skill rows with `symbol`, `title`, `description`, and `tag` |
 | `traits` | Small footer stats with `label` and `value` |
 | `motto`, `edition` | Collection motto and footer |
 
-The central art is `card-main-image.jpeg`; the corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
+The central art plays `card-back-main-clip.mp4` silently in a loop, using `card-main-image.jpeg` as its poster and fallback. It plays only while the popup or flip preview is visible, and pauses when hidden or motion is disabled. The corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
 
 ### Edit the portfolio content
 
@@ -191,6 +192,7 @@ repository-root/
 ├── themes.js
 ├── mainimage.png
 ├── card-main-image.jpeg
+├── card-back-main-clip.mp4
 ├── card-top-left-small.jpeg
 ├── .nojekyll
 ├── README.md
@@ -263,7 +265,7 @@ node tests/blog.test.cjs
 python tests/test_medium.py
 ```
 
-The theme suite contains 10 behavior tests. Nine additional card tests check proportional desktop/mobile sizing, opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, resizing, timed diagonal hints, clicks during hints, and suspension/resumption when hidden or paused. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
+The theme suite contains 10 behavior tests. Eleven additional card tests check proportional desktop/mobile sizing, opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, resizing, timed diagonal hints, clicks during hints, suspension/resumption when hidden or paused, and silent video playback with image fallback. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
 
 Eleven blog tests cover feed validation, caching/retry, portrait decoding and theme races, page navigation and modifier keys, greeting/farewell state, mute controls, blocked autoplay, and interrupted audio. Four Python tests cover RSS parsing, empty/error responses, and duplicate/unsafe links. Browser appearance and actual audio playback still need manual verification.
 

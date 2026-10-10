@@ -156,13 +156,14 @@ Keep the original profile card at its original natural size from `styles.css`, f
 The owner later requested a Pokémon-style detail card, designed in code so its skills and other information remain editable. This is an approved use of additional supplied artwork inside the popup, not a new decorative character on the main page.
 
 - `card-design-reference.jpeg` supplies the layout inspiration: corner portrait, large art window, identity/stat header, ability and skill rows, and a compact footer.
-- `card-main-image.jpeg` is the central illustration; `card-top-left-small.jpeg` is the small upper-left portrait. Use these exact supplied files rather than generating replacements. Do not infer the real identity of the person in the portrait.
+- `card-back-main-clip.mp4` is the central artwork video, with `card-main-image.jpeg` as its poster/fallback; `card-top-left-small.jpeg` is the small upper-left portrait. Use these exact supplied files rather than generating replacements. Do not infer the real identity of the person in the portrait.
+- `analystCard.mainVideo` selects the optional muted, zero-volume, inline looping video. It plays during the popup and passive flip preview, and pauses when closed, the tab is hidden, or motion is disabled. Media errors reveal the original image. The Pages build includes the MP4.
 - The `analystCard` object in `profile.js` controls all card copy, artwork paths/crop, ability, techniques, traits, decorative stat, card number, and footer. Defaults reuse the site's interests and skills; the infinity stat is decorative, not a claim of competence.
 - `analyst-card.js` builds the card with DOM text nodes and adds an accessible overlay button to the existing hero figure. `analyst-card.css` supplies the trading-card border, theme-aware surfaces, layout, and animation.
 - A native `<dialog>` opens above the entire website, not just the main column. The original profile face is cloned for the flip; the detail face appears on its reverse. The opening travels/scales from the source card and rotates over 1.15 seconds; closing reverses over 0.85 seconds.
 - Escape, the close button, and outside clicks close it. Native modal behavior contains focus; the script locks background scrolling and restores focus/visibility to the original avatar.
 - Short viewports scroll inside the dialog. Resizing and reduced-motion changes settle an in-progress animation; reduced/paused motion opens and closes immediately.
-- Tests in `tests/analyst-card.test.cjs` cover nine scenarios, including proportional desktop/mobile geometry, modal behavior, hint timing, click interruption, and visibility/motion suspension. Actual browser rendering and native focus containment still need visual/browser QA.
+- Tests in `tests/analyst-card.test.cjs` cover eleven scenarios, including proportional desktop/mobile geometry, modal behavior, hint timing, click interruption, visibility/motion suspension, silent video playback, and media fallback. Actual browser rendering and native focus containment still need visual/browser QA.
 
 ## 6. Selected logo and theme versions
 

@@ -1,0 +1,60 @@
+/* Typed palette colors let even gradients, text, and the logo blend together. */
+@property --ink { syntax: "<color>"; inherits: true; initial-value: #2b3c32; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #64715f; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #49684a; }
+@property --sunlight { syntax: "<color>"; inherits: true; initial-value: #b28b48; }
+@property --paper { syntax: "<color>"; inherits: true; initial-value: #f7f5eb; }
+@property --line { syntax: "<color>"; inherits: true; initial-value: #d9dfcf; }
+@property --surface { syntax: "<color>"; inherits: true; initial-value: #fffdf5; }
+@property --surface-hover { syntax: "<color>"; inherits: true; initial-value: #f1f3e6; }
+@property --surface-tint { syntax: "<color>"; inherits: true; initial-value: #e8eddc; }
+@property --surface-glass { syntax: "<color>"; inherits: true; initial-value: #fffdf5ed; }
+@property --paper-overlay { syntax: "<color>"; inherits: true; initial-value: #f7f5ebd1; }
+@property --contact-overlay { syntax: "<color>"; inherits: true; initial-value: #f7f5ebbd; }
+@property --band-overlay { syntax: "<color>"; inherits: true; initial-value: #e9eddfc7; }
+@property --footer-overlay { syntax: "<color>"; inherits: true; initial-value: #e9eddfd1; }
+@property --secondary-ink { syntax: "<color>"; inherits: true; initial-value: #41513d; }
+@property --accent-soft { syntax: "<color>"; inherits: true; initial-value: #6e8d60; }
+@property --title { syntax: "<color>"; inherits: true; initial-value: #304e38; }
+@property --title-shadow { syntax: "<color>"; inherits: true; initial-value: #fff8df; }
+@property --title-shadow-soft { syntax: "<color>"; inherits: true; initial-value: #7e98642b; }
+@property --button-ink { syntax: "<color>"; inherits: true; initial-value: #fffdf3; }
+@property --button-edge { syntax: "<color>"; inherits: true; initial-value: #dfc181; }
+@property --label-fill { syntax: "<color>"; inherits: true; initial-value: #f2e5be; }
+@property --ornament { syntax: "<color>"; inherits: true; initial-value: #aebf9c; }
+@property --card-edge { syntax: "<color>"; inherits: true; initial-value: #fff8e080; }
+@property --selection { syntax: "<color>"; inherits: true; initial-value: #d2dbc4; }
+@property --terminal-bg { syntax: "<color>"; inherits: true; initial-value: #293e31; }
+@property --terminal-ink { syntax: "<color>"; inherits: true; initial-value: #d7e4c2; }
+@property --terminal-line { syntax: "<color>"; inherits: true; initial-value: #697e59; }
+@property --terminal-muted { syntax: "<color>"; inherits: true; initial-value: #c1cfab; }
+@property --terminal-accent { syntax: "<color>"; inherits: true; initial-value: #d4b375; }
+@property --portrait-start { syntax: "<color>"; inherits: true; initial-value: #e1ead2; }
+@property --portrait-mid { syntax: "<color>"; inherits: true; initial-value: #f7ebcf; }
+@property --portrait-end { syntax: "<color>"; inherits: true; initial-value: #d2e3da; }
+@property --particle { syntax: "<color>"; inherits: true; initial-value: #f9e9af; }
+@property --particle-glow { syntax: "<color>"; inherits: true; initial-value: #eed38b; }
+@property --leaf { syntax: "<color>"; inherits: true; initial-value: #adc385; }
+@property --wash-strong { syntax: "<color>"; inherits: true; initial-value: #fbf7eaf2; }
+@property --wash-middle { syntax: "<color>"; inherits: true; initial-value: #fbf7eac9; }
+@property --wash-faint { syntax: "<color>"; inherits: true; initial-value: #fbf7ea38; }
+@property --wash-bottom { syntax: "<color>"; inherits: true; initial-value: #f6f3e8e6; }
+@property --wash-top { syntax: "<color>"; inherits: true; initial-value: #f7f4e9b3; }
+
+:root { --theme-fade-duration: 3.2s; --theme-fade-easing: cubic-bezier(.4,0,.2,1); }
+html[data-theme] {
+  transition-property: --ink, --muted, --accent, --sunlight, --paper, --line, --surface, --surface-hover, --surface-tint, --surface-glass, --paper-overlay, --contact-overlay, --band-overlay, --footer-overlay, --secondary-ink, --accent-soft, --title, --title-shadow, --title-shadow-soft, --button-ink, --button-edge, --label-fill, --ornament, --card-edge, --selection, --terminal-bg, --terminal-ink, --terminal-line, --terminal-muted, --terminal-accent, --portrait-start, --portrait-mid, --portrait-end, --particle, --particle-glow, --leaf, --wash-strong, --wash-middle, --wash-faint, --wash-bottom, --wash-top;
+  transition-duration: var(--theme-fade-duration);
+  transition-timing-function: var(--theme-fade-easing);
+}
+.scene-stack { position:fixed;inset:0 0 0 var(--rail);z-index:-1;pointer-events:none; }
+.scene-layer { position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat; }
+.scene-arriving { animation:scene-crossfade var(--theme-fade-duration) var(--theme-fade-easing) both; }
+@keyframes scene-crossfade { from { opacity:0; } to { opacity:1; } }
+html[data-scenes-ready="true"] body::before { display:none; }
+html[data-motion-paused="true"] { transition:none; }
+html[data-motion-paused="true"] .scene-layer { animation:none; }
+@media(prefers-reduced-motion:reduce) {
+  html[data-theme] { transition:none; }
+  .scene-layer { animation:none; }
+}

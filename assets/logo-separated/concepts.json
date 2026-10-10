@@ -1,0 +1,32 @@
+[
+  {
+    "id": "01-condensed",
+    "name": "Condensed",
+    "description": "Closest to the website’s bold headline lettering."
+  },
+  {
+    "id": "02-upright",
+    "name": "Upright",
+    "description": "Straight, sturdy lettering with a calm, professional balance."
+  },
+  {
+    "id": "03-humanist",
+    "name": "Humanist",
+    "description": "More open counters and lightly softened curves."
+  },
+  {
+    "id": "04-compact",
+    "name": "Compact",
+    "description": "A tighter footprint designed for the small navigation header."
+  },
+  {
+    "id": "05-editorial",
+    "name": "Editorial",
+    "description": "A balanced medium-bold treatment with more breathing room."
+  },
+  {
+    "id": "06-forward",
+    "name": "Forward",
+    "description": "A stronger italic echo of the AINKUN heading."
+  }
+]

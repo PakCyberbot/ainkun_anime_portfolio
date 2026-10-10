@@ -1,0 +1,13 @@
+# a刀 logo
+
+Output: `assets/ainkun-logo.png`, a reusable transparent PNG generated with the built-in image generation tool.
+
+Reference: the user-supplied `example-logo.png`. Colors: forest green `#49684a` with a warm gold `#b28b48` accent.
+
+## Final refinement prompt
+
+Edit the supplied logo image. Keep the exact a刀 letter geometry, layout, proportions and diagonal slash, but correct the rendering for a real flat production logo. REMOVE every glow, halo, bloom, haze, shadow, gradient and lighting effect completely. Fill the actual letter shapes with SOLID fully opaque forest green #49684a, with sharp clean edges; fill the diagonal slash with SOLID fully opaque muted warm gold #b28b48. All pixels outside the sharp logo silhouette and inside the letter counters must be completely transparent, alpha zero. Interior logo pixels must be alpha 255. Only minimal edge antialiasing. Absolutely no translucent mist surrounding the logo. No background of any kind. No new elements. It should look like crisp flat vector artwork exported as a transparent PNG, legible on white or cream. Keep compact framing with 8 percent empty transparent margin. The prior result had an unwanted glowing effect: remove it entirely.
+
+## Initial generation prompt
+
+Use case: logo-brand. Create a clean, premium standalone logo based closely on the supplied reference image example-logo.png. The reference is a visual shape reference: a bold italic lowercase Latin 'a' on the left and the Japanese kanji '刀' on the right, visually joined by a decisive rising diagonal slash. Exact logo text: 'a刀'. Keep both glyphs recognizable: the 'a' lowercase with its rounded enclosed counter, and 刀 with its characteristic top horizontal stroke, right hooked vertical, and descending left diagonal. Preserve the reference's compact forward-leaning silhouette and elegant sharply tapered diagonal, refining the curves and spacing into a balanced original mark. Match a wholesome Japanese anime morning portfolio: flat deep forest green (#49684a) for the main letterforms, and a very fine warm muted gold (#b28b48) accent along the upper tip of the rising diagonal. Clean smooth vector-like edges, solid flat fills, excellent readability at small sizes, understated confident identity. Standalone mark only, centered and filling roughly 85 percent of a tight slightly landscape 3:2 canvas. GENUINELY TRANSPARENT background with alpha, including open letter counters; no opaque background, no painted checkerboard, no white or cream rectangle. No additional words, no ainkun text, no tagline, no stars, no leaves, no border, no shadow, no glow, no gradients, no bevels, no mockup. This is a production logo asset to place directly on a cream website header.

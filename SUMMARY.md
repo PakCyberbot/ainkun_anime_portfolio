@@ -367,3 +367,5 @@ On the homepage, `chapter-transition.js` turns the opening/content boundary into
 Ctrl/Cmd-wheel zoom, horizontal gestures, sidebar scrolling, form controls, card dialogs, and the creator overlay are excluded. Reduced motion jumps immediately. If enlarged text makes the opening chapter taller than the available screen, its internal document range remains scrollable before transitioning out. Resizing settles an active transition; page lifecycle events clear stale frames. Touch and scrollbar navigation remain native. Five DOM-model behavior checks pass with `node tests/chapter-transition.test.cjs`; live browser visual review remains unavailable in this environment.
 
 The sidebar and footer wordmarks have been swapped on both pages: **ainkun.** in the sidebar links home; the footer creator credit retains its regular Space Mono styling and Japanese rain/logo transition to PakCyberbot.
+
+The hero role label **SECURITY RESEARCHER** uses bold Space Mono at a responsive 13-17px, stronger theme-aware ink, tighter letter spacing, and a small accent rule so it remains clearly visible below the animated name. Styling lives in `responsive.css`.

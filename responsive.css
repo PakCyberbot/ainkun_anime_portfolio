@@ -53,6 +53,13 @@
   .achievement-year { margin-left:auto; }
 }
 
+/* Keep the role readable beneath the animated name in every theme. */
+.hero .intro>span {
+  display:inline-block;max-width:100%;margin-top:0;padding:5px 0 5px 12px;
+  border-left:3px solid var(--accent);color:var(--ink);
+  font:700 clamp(13px,1.15vw,17px)/1.5 var(--mono);letter-spacing:1.2px;
+}
+
 /* The opening chapter occupies the entire first screen at every zoom level.
    On mobile, the fixed navigation already reserves 124px above main content.
    A minimum rather than fixed height keeps enlarged text fully accessible. */

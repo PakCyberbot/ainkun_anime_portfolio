@@ -15,9 +15,9 @@ window.PORTFOLIO = {
     number: "001",
     statLabel: "CURIOSITY",
     statValue: "∞", // Decorative card flavor, not a skill rating or certification.
-    mainImage: "card-main-image.jpeg",
-    mainVideo: "card-back-main-clip.mp4", // Muted loop; mainImage is its poster/fallback.
-    mainImageAlt: "A thoughtful anime character in a quiet moment",
+    mainImage: "", // Optional poster/fallback; leave empty for video only.
+    mainVideo: "card-back-main-clip.mp4", // Muted loop.
+    mainImageAlt: "",
     portraitImage: "card-top-left-small.jpeg?v=d738260b", // Refresh cached copies after replacing the portrait.
     portraitImageAlt: "The supplied corner portrait for ainkun's card",
     imagePosition: "center 43%",

@@ -183,7 +183,7 @@
   voice.setEnabled(soundEnabled); updateSoundButton();
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const motionAllowed = () => !reduced.matches && document.documentElement.dataset.motionPaused !== 'true';
-  const say = kind => voice.play(kind === 'hello' ? 'assets/blog/adult-female-konnichiwa.mp3' : 'assets/blog/adult-female-arigatou-gozaimasu.mp3');
+  const say = kind => voice.play(kind === 'hello' ? 'assets/blog/teen-konnichiwa.mp3' : 'assets/blog/teen-arigatou-gozaimasu.mp3');
   const portraits = [...guide.querySelectorAll('[data-host-theme]')];
   const portraitLoads = new Map();
   const selectPortrait = createPortraitSwitcher({

@@ -24,8 +24,8 @@ Change the `analystCard` object in [profile.js](profile.js). The card is built i
 | --- | --- |
 | `name`, `japaneseName`, `stage`, `role`, `type`, `number` | Identity, classification, and card number |
 | `statLabel`, `statValue` | Decorative header stat; currently curiosity/infinity, not a skill rating |
-| `mainImage`, `mainImageAlt`, `imagePosition` | Central artwork, description, and crop position |
-| `mainVideo` | Optional silent looping video; `mainImage` remains its poster and fallback |
+| `mainImage`, `mainImageAlt`, `imagePosition` | Optional central artwork (empty disables it), description, and crop position |
+| `mainVideo` | Optional silent looping video; uses `mainImage` as its poster and fallback only when set |
 | `portraitImage`, `portraitImageAlt` | Small top-left portrait |
 | `ability.title`, `ability.description` | Featured ability heading and copy |
 | `techniques` | Editable skill rows with `symbol`, `title`, `description`, and `tag` |
@@ -33,7 +33,7 @@ Change the `analystCard` object in [profile.js](profile.js). The card is built i
 | `traits` | Optional footer details with `label` and `value` |
 | `motto`, `edition` | Collection motto and footer |
 
-The central art plays `card-back-main-clip.mp4` silently in a loop, using `card-main-image.jpeg` as its poster and fallback. It plays only while the popup or flip preview is visible, and pauses when hidden or motion is disabled. The corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
+The central art plays `card-back-main-clip.mp4` silently in a loop, without a poster or background image. It plays only while the popup or flip preview is visible, and pauses when hidden or motion is disabled. The corner portrait is `card-top-left-small.jpeg`. `card-design-reference.jpeg` is the visual reference, not the rendered card. The card follows the current theme and respects reduced/paused motion. Layout and interaction live in `analyst-card.css` and `analyst-card.js`.
 
 ### Edit the portfolio content
 
@@ -43,7 +43,7 @@ Edit **`profile.js`** to change the biography, skills, projects, achievements, b
 
 The **Blog** navigation item and homepage chapter tile open the separate `blog.html` page in the same tab. The page shares the portfolio sidebar, fixed background, and all three local-time themes. It shows up to ten real articles from [ainkun's Medium RSS feed](https://ainkun.medium.com/feed), with cover images, dates, short excerpts, and links that open on Medium. `blog.maxPosts` and `blog.feed` live in `profile.js`.
 
-On opening the blog page, a large nerdy adult female anime host rises from below the bottom-right edge with **こんにちは / Konnichiwa**. Following a portfolio navigation link or clicking a Medium link triggers **ありがとうございます / Arigatou gozaimasu**, then she slides down. Voice can be muted independently of motion; its preference lasts for the tab session. Browsers may block audio before interaction; the voice button changes to **Enable voice** if needed. Only her upper body is visible, with the lower body cropped outside the window. Desktop height is up to 460px (53% of the viewport); mobile uses up to 285px (34%). A subtle breathing motion keeps the portrait relaxed. Reduced/paused motion removes both the sliding and breathing animations. The host stays visible while scrolling the blog and is exclusive to this page. Ordinary portfolio navigation waits 1.75 seconds for the farewell; Medium links and modified clicks keep their native behavior.
+On opening the blog page, a large teenage male anime host based on `mainimage.png` rises from below the bottom-right edge with **こんにちは / Konnichiwa**. Following a portfolio navigation link or clicking a Medium link triggers **ありがとうございます / Arigatou gozaimasu**, then he slides down. Voice can be muted independently of motion; its preference lasts for the tab session. Browsers may block audio before interaction; the voice button changes to **Enable voice** if needed. Only his upper body is visible, with the lower body cropped outside the window. The host uses 43% of the viewport height on landscape screens, and up to 27.5% on square or portrait screens. Viewport sizing keeps the character steady through browser zoom. The speech bubble sits close beside the character in the artwork's empty left margin, or above it on square and portrait screens; viewport units keep its width, text and padding visually consistent during both zoom-in and zoom-out. A subtle breathing motion keeps the portrait relaxed. Reduced/paused motion removes both the sliding and breathing animations. The host stays visible while scrolling the blog and is exclusive to this page. Ordinary portfolio navigation waits 1.75 seconds for the farewell; Medium links and modified clicks keep their native behavior.
 
 The browser fetches the same-origin `data/medium.json` on entry and caches it for five minutes. `scripts/refresh_medium.py` reads Medium's RSS to produce that file; it does not copy full articles or require a public CORS proxy. The checked-in snapshot contains real fetched articles, and its sync date is displayed. This follows [Medium's supported RSS format](https://help.medium.com/hc/en-us/articles/214874118-Using-RSS-feeds-of-profiles-publications-and-topics).
 
@@ -57,7 +57,7 @@ Use `python3` on macOS/Linux or `py` on Windows if needed. If an obsolete enviro
 
 The included GitHub Pages workflow refreshes the feed on pushes to `main`, manual runs, and daily around **08:17 PKT**. Refreshes go into the deployment artifact; **the workflow makes no Git commits**. Enable it as described below. Other hosts and branch-based Pages deployments must refresh and upload the JSON manually.
 
-Character and audio files are in `assets/blog/`. The nerdy female host has three portraits: `nerd-female-host.png` (morning), `nerd-female-evening.png` (sunset), and `nerd-female-night.png` (sleepy). CSS mirrors all three toward the article content. Portraits follow automatic local-time and manual theme changes, crossfading over 3.2 seconds after the incoming image decodes; rapid changes keep the latest selection. The calmer female greetings are synthesized with **VOICEVOX:冥鳴ひまり**, saved locally as `adult-female-konnichiwa.mp3` and `adult-female-arigatou-gozaimasu.mp3`. No external speech service is needed during playback. See [asset credits](assets/blog/CREDITS.md), [the original generation prompt](assets/blog/FEMALE-HOST-PROMPT.md), and [theme variant prompts](assets/blog/THEME-HOST-PROMPTS.md). Keep the VOICEVOX credit when reusing the audio. Previous variants are retained as design history.
+Character and audio files are in `assets/blog/`. The teenage host matches `mainimage.png` with tousled black hair, glasses, gray-green eyes and a dark hoodie. Three portraits cover the themes: `teen-host.png` (morning), `teen-evening.png` (sunset), and `teen-night.png` (sleepy). All three use their source orientation, horizontally flipped from the previous displayed version. Portraits follow automatic local-time and manual theme changes, crossfading over 3.2 seconds after the incoming image decodes; rapid changes keep the latest selection. Youthful male greetings are synthesized with **VOICEVOX:白上虎太郎**, saved locally as `teen-konnichiwa.mp3` and `teen-arigatou-gozaimasu.mp3`. No external speech service is needed during playback. See [asset credits](assets/blog/CREDITS.md) and [the generation prompts](assets/blog/TEEN-HOST-PROMPTS.md). Keep the VOICEVOX credit when reusing the audio. Previous variants are retained as design history.
 
 - Set `socials.github`, `medium`, `linkedin`, and `x` to complete `https://...` URLs.
 - Set `socials.email` to your plain email address, or leave it empty.
@@ -266,7 +266,7 @@ node tests/blog.test.cjs
 python tests/test_medium.py
 ```
 
-The theme suite contains 10 behavior tests. Eleven additional card tests check proportional desktop/mobile sizing, opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, resizing, timed diagonal hints, clicks during hints, suspension/resumption when hidden or paused, and silent video playback with image fallback. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
+The theme suite contains 10 behavior tests. Eleven additional card tests check proportional desktop/mobile sizing, opening, interrupting the animation with Escape, outside clicks, focus restoration, motion preferences, resizing, timed diagonal hints, clicks during hints, suspension/resumption when hidden or paused, and silent video playback without a background image. These use DOM models and do not replace browser checks for rendering, native focus trapping, or animation smoothness.
 
 Eleven blog tests cover feed validation, caching/retry, portrait decoding and theme races, page navigation and modifier keys, greeting/farewell state, mute controls, blocked autoplay, and interrupted audio. Four Python tests cover RSS parsing, empty/error responses, and duplicate/unsafe links. Browser appearance and actual audio playback still need manual verification.
 

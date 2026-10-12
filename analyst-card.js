@@ -34,18 +34,20 @@
   header.append(portrait, identity, stat, energy);
 
   const artwork = element('figure', 'collectible-artwork');
-  const mainImage = picture('collectible-main-image', config.mainImage, config.mainImageAlt);
-  mainImage.style.objectPosition = config.imagePosition || 'center';
+  if (config.mainImage) {
+    const mainImage = picture('collectible-main-image', config.mainImage, config.mainImageAlt);
+    mainImage.style.objectPosition = config.imagePosition || 'center';
+    artwork.append(mainImage);
+  }
   const ribbon = element('span', 'collectible-ribbon', config.type);
   const caption = element('figcaption', 'collectible-art-caption');
   const japanese = element('span', '', config.japaneseName);
   japanese.lang = 'ja';
   caption.append(element('span', '', config.role), japanese);
-  artwork.append(mainImage, ribbon, caption);
   if (config.mainVideo) {
     const video = element('video', 'collectible-main-image collectible-main-video');
     video.src = config.mainVideo;
-    video.poster = config.mainImage;
+    if (config.mainImage) video.poster = config.mainImage;
     video.muted = true;
     video.defaultMuted = true;
     video.volume = 0;
@@ -58,9 +60,9 @@
     video.setAttribute('aria-hidden', 'true');
     video.disablePictureInPicture = true;
     video.style.objectPosition = config.imagePosition || 'center';
-    // Keep the image underneath as a fallback and overlays above the video.
-    artwork.replaceChildren(mainImage, video, ribbon, caption);
+    artwork.append(video);
   }
+  artwork.append(ribbon, caption);
 
   const body = element('div', 'collectible-body');
   if (config.ability) {

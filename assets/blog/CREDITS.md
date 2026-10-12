@@ -1,14 +1,25 @@
 # Blog host assets
 
-## Current nerdy female host
+## Current teenage host and youthful male voice
 
-`nerd-female-host.png` was generated for this portfolio with the built-in imagegen tool using the owner-supplied `nerd-female-character.jpeg` as visual reference. It retains glasses, a high ponytail, and the researcher aesthetic, adapted to the site's cream and sage palette. Original transparent alpha is preserved; the page crops the lower body at the bottom-right window edge. See [the final generation prompt](FEMALE-HOST-PROMPT.md). It is not a depiction of the voice performer. The current mature female VOICEVOX greetings and theme variants are documented below.
+`teen-host.png`, `teen-evening.png`, and `teen-night.png` were generated with the built-in imagegen tool on 2026-10-12 using the owner-supplied `mainimage.png` as the identity reference. They depict a teenage boy with tousled black hair, glasses, gray-green eyes and a charcoal hoodie. Original transparent alpha is preserved. The aligned morning, sunset and sleepy night portraits follow the blog theme and use their source orientation, horizontally flipped from their initial displayed version. See [the final prompts](TEEN-HOST-PROMPTS.md). This original artwork does not depict the voice performer or the VOICEVOX character.
 
-## Current theme variants and mature female voice
+The current page uses **VOICEVOX:白上虎太郎**, normal / ふつう style (speaker ID 12), for a youthful male delivery. These are synthesized greetings, not recordings of the portfolio owner:
+
+- `teen-konnichiwa.mp3`: 「こんにちは。」, 0.864 seconds of source audio.
+- `teen-arigatou-gozaimasu.mp3`: 「ありがとうございます。」, 1.472 seconds of source audio; fits within the existing 1.75-second farewell transition.
+- Generated and downloaded on 2026-10-12 using the [TTS Quest API](https://voicevox.su-shiki.com/su-shikiapis/ttsquest/). Playback uses bundled local files without a runtime voice service.
+- [Voice profile](https://voicevox.hiroshiba.jp/product/shirakami_kotarou/), [VOICEVOX terms](https://voicevox.hiroshiba.jp/term/), and [VirVox voice terms](https://www.virvoxproject.com/voicevoxの利用規約), checked 2026-10-12. Preserve **VOICEVOX:白上虎太郎** attribution. Downstream users must follow the voice and software terms; the audio is not covered by a general code license. No endorsement is implied.
+
+## Previous nerdy female host (not used by the page)
+
+`nerd-female-host.png` was generated for this portfolio with the built-in imagegen tool using the owner-supplied `nerd-female-character.jpeg` as visual reference. It retains glasses, a high ponytail, and the researcher aesthetic, adapted to the site's cream and sage palette. Original transparent alpha is preserved. See [the final generation prompt](FEMALE-HOST-PROMPT.md). It is not a depiction of the voice performer. The previous mature female VOICEVOX greetings and theme variants are documented below.
+
+## Previous theme variants and mature female voice (not used by the page)
 
 The morning portrait is `nerd-female-host.png`; `nerd-female-evening.png` adds sunset lighting, and `nerd-female-night.png` adds moonlight and a sleepy expression. The built-in imagegen tool generated both aligned variants from the morning artwork. See [the two final prompts](THEME-HOST-PROMPTS.md). All are mirrored in CSS toward the articles and fade with the site's theme.
 
-The current page uses **VOICEVOX:冥鳴ひまり**, normal style (speaker ID 14), for a softer, mature female delivery. These are synthesized greetings, not recordings of the portfolio owner:
+The previous host used **VOICEVOX:冥鳴ひまり**, normal style (speaker ID 14), for a softer, mature female delivery. These are synthesized greetings, not recordings of the portfolio owner:
 
 - `adult-female-konnichiwa.mp3`: 「こんにちは。」, approximately 0.90 seconds of source audio.
 - `adult-female-arigatou-gozaimasu.mp3`: 「ありがとうございます。」, approximately 1.40 seconds of source audio.

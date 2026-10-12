@@ -1,0 +1,16 @@
+# Teenage blog host
+
+Generated with the built-in imagegen tool on 2026-10-12. Identity reference: repository-root `mainimage.png`. All three outputs are 1024 × 1536 RGBA; generated transparency is preserved. The page now uses the source orientation (horizontally flipped from the initial mirrored display) and crops the lower body at the bottom-right window edge. The prompts below record the original generation instructions.
+
+## Morning — `assets/blog/teen-host.png`
+
+Use case: stylized-concept. Asset type: transparent anime teenage boy host for the bottom-right of a personal cybersecurity blog. Input mainimage.png is the primary identity and style reference: retain the recognizable tousled shaggy near-black hair, long fringe partly covering one eye, thin black rounded rectangular glasses, gray-green eyes, pale warm skin, and charcoal black hoodie. Generate one friendly teenage boy around 16-17, youthful soft face and slim teen proportions, not adult, no stubble. Calm shy small smile, one hand raised in a small relaxed hello near shoulder, other arm natural. Clean anime outlines and soft cel shading faithful to the reference. Front three-quarter view slightly turned toward viewer's RIGHT (website mirrors him toward articles). Portrait 1024x1536, entire hair/head and shoulders and raised hand inside canvas with very little top padding, visible to upper thighs, torso extends through bottom edge for a waist crop in browser. Figure fills most of width. Soft neutral morning illumination. Keep the original black hoodie and glasses; no lab coat, no accessories or props. True transparent alpha background; no scenery, no haze, no glow, no ground or shadow cloud, no text, no speech bubble, no logos, no watermark. One character only.
+
+## Evening — `assets/blog/teen-evening.png`
+
+Use case: lighting-weather. Edit target: teen-host.png, the transparent anime teenage boy blog host. Create the EVENING variant. Keep exactly the same teenage boy identity based on mainimage.png: shaggy black fringe partly over one eye, black glasses, gray-green eyes, black hoodie, youthful soft face. Preserve pose, raised greeting hand, silhouette, framing, image dimensions 1024x1536 and alignment exactly. Change only lighting: gentle amber sunset highlights, subdued warm copper shadows and relaxed small smile. No background or haze or glow cloud; preserve true transparent alpha and clean silhouette. Do not mirror. Torso continues through bottom edge. No text, no added objects, one aligned portrait only.
+
+## Night — `assets/blog/teen-night.png`
+
+Use case: lighting-weather. Edit target: teen-host.png, transparent anime teenage boy blog host. Create the NIGHT / SLEEPY variant. Preserve exactly the same youthful boy identity, black shaggy hair covering part of one eye, black glasses, gray-green eyes, charcoal hoodie, greeting hand pose, silhouette, camera angle, 1024x1536 framing, size and alignment. Change only lighting and expression: visibly sleepy half-lowered eyelids and a small peaceful smile, cool soft blue moonlight, subdued indigo shadows, small warm reflection on face to keep glasses and eye legible. Keep the visible eye partially open. No background, haze, glow cloud or sleep symbols. Preserve genuine transparent alpha and clean character edges. No mirroring. Torso through canvas bottom. No text, no objects, one aligned portrait only.
+

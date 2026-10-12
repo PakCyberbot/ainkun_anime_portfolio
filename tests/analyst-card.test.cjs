@@ -151,8 +151,8 @@ test('card video loops silently inline, transfers from hint to popup, and pauses
   const hintVideo = h.hint.querySelector('video');
   assert.equal(video.src, 'card-back-main-clip.mp4');
   assert.ok(!video.poster);
-  assert.equal(h.dialog.querySelector('.collectible-artwork').querySelector('img'), null);
-  assert.equal(h.hint.querySelector('.collectible-artwork').querySelector('img'), null);
+  assert.equal(h.dialog.querySelector('.collectible-artwork').querySelectorAll('img').length, 0);
+  assert.equal(h.hint.querySelector('.collectible-artwork').querySelectorAll('img').length, 0);
   for (const media of [video, hintVideo]) {
     for (const attr of ['muted', 'loop', 'playsinline']) assert.equal(media.attributes[attr], '');
     assert.equal(media.paused, true);
@@ -180,7 +180,7 @@ test('popup video respects visibility and motion preferences and hides on media 
     video.emit('error');
     assert.equal(video.hidden, true);
     assert.equal(video.paused, true);
-    assert.equal(h.dialog.querySelector('.collectible-artwork').querySelector('img'), null);
+    assert.equal(h.dialog.querySelector('.collectible-artwork').querySelectorAll('img').length, 0);
     h[method](true); h[method](false);
     assert.equal(video.paused, true);
   }

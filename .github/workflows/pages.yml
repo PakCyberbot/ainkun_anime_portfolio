@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '17 3 * * *' # Daily, around 08:17 PKT; GitHub may delay scheduled runs.
+    - cron: '0 * * * *' # Hourly at minute 00; GitHub may delay scheduled runs.
 
 permissions:
   contents: read

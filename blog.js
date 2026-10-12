@@ -109,12 +109,14 @@
   if (typeof document === 'undefined') return;
 
   const grid = document.querySelector('#writing-grid');
+  if (!grid) return;
+  const isPreview = grid.dataset.preview === 'true';
   const note = document.querySelector('#blog-feed-note');
   const retry = document.querySelector('#blog-retry');
   const soundButton = document.querySelector('#blog-sound');
   const guide = document.querySelector('#blog-guide');
   const config = window.PORTFOLIO.blog;
-  const loadFeed = createFeedLoader({ fetcher: window.fetch.bind(window), url: config.feed, limit: config.maxPosts });
+  const loadFeed = createFeedLoader({ fetcher: window.fetch.bind(window), url: config.feed, limit: isPreview ? 2 : config.maxPosts });
   const node = (tag, className, text) => {
     const result = document.createElement(tag);
     result.className = className;
@@ -148,10 +150,12 @@
     });
     grid.replaceChildren(...cards);
     if (!cards.length) {
-      note.textContent = 'New stories will appear here when published. Explore the Medium profile above.';
+      note.textContent = isPreview
+        ? 'New stories will appear here when published. Visit the blog for more reading.'
+        : 'New stories will appear here when published. Explore the Medium profile above.';
     } else {
       const fetched = new Date(feed.fetchedAt);
-      note.textContent = `${cards.length} recent stories` + (Number.isFinite(fetched.getTime()) ? ` · Last synced ${formatDate(feed.fetchedAt)}` : '');
+      note.textContent = `${cards.length} ${isPreview ? 'latest' : 'recent'} ${cards.length === 1 ? 'story' : 'stories'}` + (Number.isFinite(fetched.getTime()) ? ` · Last synced ${formatDate(feed.fetchedAt)}` : '');
     }
   }
   let loading = false;
@@ -164,11 +168,18 @@
     catch {
       note.textContent = grid.children.length
         ? 'Showing the articles already loaded. The latest refresh is unavailable.'
-        : 'The reading shelf could not load. You can still read every story on Medium above.';
+        : isPreview ? 'The latest articles could not load. Follow the blog link below for more reading.'
+          : 'The reading shelf could not load. You can still read every story on Medium above.';
       retry.hidden = false;
     } finally { loading = false; grid.setAttribute('aria-busy', 'false'); }
   }
   retry.addEventListener('click', () => loadArticles(true));
+
+  // The homepage shares the feed and cards; the welcome host belongs to the full blog.
+  if (isPreview) {
+    loadArticles();
+    return;
+  }
 
   let soundEnabled = true, voiceBlocked = false, leaveTimer;
   try { soundEnabled = sessionStorage.getItem('ainkun-blog-sound') !== 'off'; } catch {}

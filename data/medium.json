@@ -1,7 +1,7 @@
 {
   "source": "https://ainkun.medium.com/feed",
   "profile": "https://ainkun.medium.com",
-  "fetchedAt": "2026-10-10T03:27:07.320630+00:00",
+  "fetchedAt": "2026-10-12T09:35:16.789403+00:00",
   "posts": [
     {
       "title": "DLL Injection",
@@ -20,7 +20,7 @@
       "url": "https://ainkun.medium.com/dll-hijacking-onedrive-73f06ce102ce",
       "publishedAt": "2023-08-29T10:19:25+00:00",
       "excerpt": "DLL Hijacking — OneDrive I plan to perform DLL Hijacking chaining with DLL Proxying on a target DLL that the onedrive application loads in order to utilize its functions. Setup: Linux…",
-      "image": "https://cdn-images-1.medium.com/max/1024/1*rv-haYkBh45v_ExmwWPKtw.jpeg",
+      "image": "https://cdn-images-1.medium.com/max/500/1*DwQiNx4Yis2vXYjHN8OFiw.gif",
       "tags": [
         "ethical-hacking",
         "red-team",

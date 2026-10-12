@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="themes.css">
   <link rel="stylesheet" href="theme-motion.css">
   <link rel="stylesheet" href="analyst-card.css">
+  <link rel="stylesheet" href="blog.css">
   <script src="profile.js" defer></script><script src="script.js" defer></script>
+  <script src="blog.js" defer></script>
   <script src="analyst-card.js" defer></script>
   <script src="chapter-transition.js" defer></script>
   <link rel="stylesheet" href="credit-transition.css">
@@ -63,6 +65,14 @@
       <section class="section about" id="about"><div class="section-heading reveal"><span class="eyebrow">01 / ABOUT ME</span><div class="section-jp" lang="ja">自己紹介</div><h2>A curious mind.<br>An offensive <em>mindset.</em></h2><div class="word-note"><span lang="ja">探索</span><div><strong>TANSAKU / EXPLORATION</strong><p>Map the surface. Challenge assumptions. Find the gaps.</p></div></div></div><div class="about-content reveal"><p id="about-copy"></p><p class="muted">This is my corner of the internet: a place for the things I build, the lessons I learn, and the questions I keep chasing.</p><div class="terminal"><div class="terminal-bar"><span>● ● ●</span> ainkun@portfolio: ~</div><p><span>❯</span> whoami</p><p id="terminal-name"></p><p><span>❯</span> cat mindset.txt</p><p class="terminal-answer">Stay curious. Think critically. Keep learning.<span class="cursor">▌</span></p></div><div class="skills" id="skills"></div></div></section>
       <section class="section" id="projects"><div class="section-top reveal"><div><span class="eyebrow">02 / MISSION ARCHIVE</span><div class="section-jp" lang="ja">プロジェクト</div><h2>Curiosity, put <em>to work.</em></h2></div><p class="section-note">A space for investigations,<br>experiments, and things built.</p></div><div class="projects-grid" id="projects-grid"></div></section>
       <section class="section" id="achievements"><div class="section-top reveal"><div><span class="eyebrow">03 / THE JOURNEY</span><div class="section-jp" lang="ja">実績</div><h2>One step <em>further.</em></h2></div><p class="section-note"><span lang="ja">日々成長</span><br>Growing every day.</p></div><div id="achievement-list" class="achievement-list"></div></section>
+      <section class="section blog-preview" id="writing" aria-labelledby="latest-articles-title">
+        <div class="section-top reveal"><div><span class="eyebrow">04 / BLOG & FIELD NOTES</span><div class="section-jp" lang="ja">学びの記録</div><h2 id="latest-articles-title">Latest <em>articles.</em></h2></div><p class="section-note">Fresh from my reading shelf.<br>Research, lessons, and field notes.</p></div>
+        <p class="blog-feed-note" id="blog-feed-note" role="status">The latest from ainkun on Medium.</p>
+        <div class="writing-grid blog-grid" id="writing-grid" data-preview="true" aria-busy="false"></div>
+        <button class="blog-retry" id="blog-retry" type="button" hidden>Try loading articles again</button>
+        <noscript><p><a class="text-link" href="https://ainkun.medium.com">Read ainkun's articles on Medium ↗</a></p></noscript>
+        <div class="blog-preview-more"><p>Keep exploring the field notes.</p><a class="button secondary" href="blog.html">Read more on the blog <span aria-hidden="true">→</span></a></div>
+      </section>
     </div>
     <section class="contact section" id="contact"><div class="contact-inner reveal"><span class="eyebrow">05 / OPEN A CHANNEL</span><div class="section-jp" lang="ja">つながる</div><h2>Every connection.<br>A new <em>possibility.</em></h2><p>Have a security question, an interesting project,<br>or a shared love for anime? Let's connect.</p><div class="socials" id="socials"></div><p class="contact-placeholder" id="contact-note"></p></div></section>
     <footer><a class="creator-credit" href="https://pakcyberbot.com" data-creator-link>Created by PakCyberbot</a><span>© <span id="year"></span> ainkun</span><a href="#home"><span lang="ja">またね</span> / SEE YOU AGAIN ↑</a></footer>

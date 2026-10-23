@@ -8,7 +8,7 @@
         (url.hostname === 'medium.com' || url.hostname.endsWith('.medium.com')) ? url.href : '';
     } catch { return ''; }
   }
-  function normalizeFeed(payload, limit = 10) {
+  function normalizeFeed(payload, limit = 100) {
     if (!payload || !Array.isArray(payload.posts)) throw new Error('Invalid article feed');
     const seen = new Set();
     const posts = payload.posts.flatMap(item => {
@@ -24,7 +24,7 @@
         tags: Array.isArray(item.tags) ? item.tags.filter(tag => typeof tag === 'string').slice(0, 3) : [] }];
     }).sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
     if (payload.posts.length && !posts.length) throw new Error('No valid Medium articles');
-    return { posts: posts.slice(0, Math.max(1, Math.min(10, Number(limit) || 10))), fetchedAt: payload.fetchedAt };
+    return { posts: posts.slice(0, Math.max(1, Math.min(100, Number(limit) || 100))), fetchedAt: payload.fetchedAt };
   }
   function createFeedLoader({ fetcher, url, limit, now = Date.now }) {
     let pending, saved, savedAt = 0;

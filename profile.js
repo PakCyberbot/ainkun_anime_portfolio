@@ -33,7 +33,7 @@ window.PORTFOLIO = {
     motto: "A curious mind. An offensive mindset.",
     edition: "PERSONAL COLLECTION / 01"
   },
-  blog: { feed: "data/medium.json", maxPosts: 10 },
+  blog: { feed: "data/medium.json", maxPosts: 100 },
   socials: { github: "https://github.com/ainkun", medium: "https://ainkun.medium.com/", linkedin: "https://www.linkedin.com/in/ainkun/", x: "https://x.com/ain__kun", email: "contact@ainkun.com" }, // email: plain email address
   projects: [
     { title: "Deep Learning Side-Channel Attack on AES-128 in IoT Devices", category: "01 / UNIVERSITY FYDP", description: "Final-year project recovering AES-128 encryption keys from IoT hardware by training deep learning models on power side-channel traces. Applied cryptography meets hardware attack research.", tags: ["AES-128", "IoT Hardware", "Deep Learning", "Side Channels"], url: "", icon: "◎" },

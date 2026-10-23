@@ -1,8 +1,20 @@
 {
   "source": "https://ainkun.medium.com/feed",
   "profile": "https://ainkun.medium.com",
-  "fetchedAt": "2026-10-12T09:35:16.789403+00:00",
+  "fetchedAt": "2026-10-23T13:26:48.271246+00:00",
   "posts": [
+    {
+      "title": "Reversing a Flutter Application on Dart 3.13: From AOT Snapshots to Encryption Key Recovery",
+      "url": "https://ainkun.medium.com/reversing-a-flutter-application-on-dart-3-13-from-aot-snapshots-to-encryption-key-recovery-dc3244b27b01",
+      "publishedAt": "2026-10-22T09:57:40+00:00",
+      "excerpt": "How I traced a Dart AOT snapshot in IDA and pulled a hardcoded AES key out of libapp.so — the automated way, then by hand. Flutter applications can be challenging to reverse engineer. The…",
+      "image": "https://cdn-images-1.medium.com/max/704/0*4SQtUivIGD5B-XwP",
+      "tags": [
+        "application-security",
+        "flutter",
+        "dart"
+      ]
+    },
     {
       "title": "DLL Injection",
       "url": "https://ainkun.medium.com/dll-injection-60cc0d86a7bf",
@@ -115,12 +127,24 @@
       "title": "Steganography Challenge by Careem",
       "url": "https://ainkun.medium.com/steganography-challenge-by-careem-a17a59cbf79c",
       "publishedAt": "2022-03-17T07:40:31+00:00",
-      "excerpt": "Careem posted a Job on Linkedin for a position of Offensive Security engineer. Mentioning that the applicants need to crack the code in the given link pasted below, to apply for the job.…",
-      "image": "https://cdn-images-1.medium.com/max/361/1*oAviFT6XKjvUXj4d1fDSig.png",
+      "excerpt": "Careem posted a Job on Linkedin for a position of Offensive Security engineer. Mentioning that the applicants need to crack the code in the…",
+      "image": "https://miro.medium.com/v2/resize:fit:1200/1*iT0w5V7cvMH0QXO7k7xhDw.png",
+      "tags": [
+        "steganography",
+        "writeup",
+        "ctf-writeup"
+      ]
+    },
+    {
+      "title": "TCMSecurity | Dev | Write-up",
+      "url": "https://ainkun.medium.com/tcmsecurity-dev-write-up-eee565738e78",
+      "publishedAt": "2022-02-15T15:33:52+00:00",
+      "excerpt": "Step by step walkthrough to own the vulnerable box DEV created by TCM Security.",
+      "image": "https://miro.medium.com/v2/resize:fit:1200/1*reTWGYJB4aeFZWlTP-crbw.png",
       "tags": [
         "ctf-writeup",
-        "writeup",
-        "steganography"
+        "capture-the-flag",
+        "ethical-hacking"
       ]
     }
   ]

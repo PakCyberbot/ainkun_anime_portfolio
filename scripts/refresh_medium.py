@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parent.parent
 FEED = 'https://ainkun.medium.com/feed'
 OUTPUT = ROOT / 'data' / 'medium.json'
+MAX_ARCHIVE = 100
 
 
 class ArticleText(HTMLParser):
@@ -77,7 +78,14 @@ def parse_feed(data):
                       'excerpt': excerpt, 'image': parsed.image,
                       'tags': [x.text for x in item.findall('category') if x.text][:3]})
     posts.sort(key=lambda post: post['publishedAt'], reverse=True)
-    return posts[:10]
+    return posts
+
+
+def merge_posts(fresh, archived):
+    """RSS only lists the newest ten, so keep older archived articles alongside them."""
+    merged = {post['url']: post for post in archived if isinstance(post, dict) and post.get('url')}
+    merged.update((post['url'], post) for post in fresh)  # Fresh RSS data wins.
+    return sorted(merged.values(), key=lambda post: post.get('publishedAt', ''), reverse=True)[:MAX_ARCHIVE]
 
 
 def main():
@@ -93,6 +101,12 @@ def main():
         if len(data) > 2_000_000:
             raise ValueError('RSS response exceeds 2 MB')
         posts = parse_feed(data)
+        archived = []
+        if OUTPUT.exists():
+            existing = json.loads(OUTPUT.read_text(encoding='utf-8'))
+            if existing.get('source') == FEED and isinstance(existing.get('posts'), list):
+                archived = existing['posts']
+        posts = merge_posts(posts, archived)
         payload = {'source': FEED, 'profile': 'https://ainkun.medium.com',
                    'fetchedAt': dt.datetime.now(dt.timezone.utc).isoformat(), 'posts': posts}
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)

@@ -35,6 +35,13 @@ class MediumParserTests(unittest.TestCase):
         self.assertEqual(len(posts), 1)
         self.assertEqual(posts[0]['publishedAt'], '')
 
+    def test_older_archived_articles_survive_a_refresh(self):
+        old = {'title': 'Old', 'url': 'https://ainkun.medium.com/old', 'publishedAt': '2022-01-01T00:00:00+00:00'}
+        stale = {'title': 'Stale title', 'url': 'https://ainkun.medium.com/new', 'publishedAt': '2023-01-01T00:00:00+00:00'}
+        fresh = {'title': 'New title', 'url': 'https://ainkun.medium.com/new', 'publishedAt': '2023-01-01T00:00:00+00:00'}
+        posts = module.merge_posts([fresh], [stale, old, 'junk'])
+        self.assertEqual([post['title'] for post in posts], ['New title', 'Old'])
+
 
 if __name__ == '__main__':
     unittest.main()
